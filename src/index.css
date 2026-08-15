@@ -5064,7 +5064,7 @@ button, input, select, textarea {
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   object-fit: cover;
-  object-position: center 20%;
+  object-position: center center;
   margin: 0 auto;
   display: block;
   box-shadow: 0 8px 20px rgba(0, 86, 179, 0.15), 0 0 0 4px #FFFFFF, 0 0 0 6px rgba(0, 86, 179, 0.08);

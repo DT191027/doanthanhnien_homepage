@@ -96,63 +96,72 @@ export const EXECUTIVE_BOARD_DATA = {
       name: "Đồng chí Văn Công Lên",
       position: "Ủy viên Ban Chấp hành",
       assignedArea: "Phụ trách công tác Đoàn & Thanh niên địa bàn ấp",
-      avatarUrl: "/images/bch/van_cong_len.png"
+      avatarUrl: "/images/bch/van_cong_len.png",
+      avatarPosition: "center 20%"
     },
     {
       id: "bch-2",
       name: "Đồng chí Phạm Trung Trực",
       position: "Ủy viên Ban Chấp hành",
       assignedArea: "Phụ trách công tác Đoàn & Thanh niên địa bàn ấp",
-      avatarUrl: "/images/bch/pham_trung_truc.png"
+      avatarUrl: "/images/bch/pham_trung_truc.png",
+      avatarPosition: "center 20%"
     },
     {
       id: "bch-3",
       name: "Đồng chí Nguyễn Văn Vững",
       position: "Ủy viên Ban Chấp hành",
       assignedArea: "Phụ trách công tác Đoàn & Thanh niên địa bàn ấp",
-      avatarUrl: "/images/bch/nguyen_van_vung.png"
+      avatarUrl: "/images/bch/nguyen_van_vung.png",
+      avatarPosition: "center 20%"
     },
     {
       id: "bch-4",
       name: "Đồng chí Trương Thị Hồng Xuân",
       position: "Ủy viên Ban Chấp hành",
       assignedArea: "Phụ trách công tác Đoàn & Thanh niên địa bàn ấp",
-      avatarUrl: "/images/bch/truong_thi_hong_xuan.png"
+      avatarUrl: "/images/bch/truong_thi_hong_xuan.png",
+      avatarPosition: "center 25%"
     },
     {
       id: "bch-5",
       name: "Đồng chí Nguyễn Thị Thúy An",
       position: "Ủy viên Ban Chấp hành",
       assignedArea: "Phụ trách công tác Đoàn & Thanh niên địa bàn ấp",
-      avatarUrl: "/images/bch/nguyen_thi_thuy_an.png"
+      avatarUrl: "/images/bch/nguyen_thi_thuy_an.png",
+      avatarPosition: "center 20%"
     },
     {
       id: "bch-6",
       name: "Đồng chí Trần Tiến Đạt",
       position: "Ủy viên Ban Chấp hành",
       assignedArea: "Phụ trách công tác Đoàn & Thanh niên địa bàn ấp",
-      avatarUrl: "/images/bch/tran_tien_dat.png"
+      avatarUrl: "/images/bch/tran_tien_dat.png",
+      avatarPosition: "center 20%"
     },
     {
       id: "bch-7",
       name: "Đồng chí Phạm Võ Tú Hảo",
       position: "Ủy viên Ban Chấp hành",
       assignedArea: "Phụ trách công tác Đoàn & Thanh niên địa bàn ấp",
-      avatarUrl: "/images/bch/pham_vo_tu_hao.png"
+      avatarUrl: "/images/bch/pham_vo_tu_hao.png",
+      avatarPosition: "center 25%"
     },
     {
       id: "bch-8",
       name: "Đồng chí Trần Anh Khôi",
       position: "Ủy viên Ban Chấp hành",
       assignedArea: "Phụ trách công tác Đoàn & Thanh niên địa bàn ấp",
-      avatarUrl: "/images/bch/tran_anh_khoi.png"
+      avatarUrl: "/images/bch/tran_anh_khoi.png",
+      avatarPosition: "center 20%"
     },
     {
       id: "bch-9",
       name: "Đồng chí Trần Việt Khôi",
       position: "Ủy viên Ban Chấp hành",
       assignedArea: "Phụ trách công tác Đoàn & Thanh niên địa bàn ấp",
-      avatarUrl: "/images/bch/tran_viet_khoi.png"
+      avatarUrl: "/images/bch/tran_viet_khoi.png",
+      avatarPosition: "35% 20%"
     }
   ],
 

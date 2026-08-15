@@ -83,6 +83,7 @@ export default function ExecutiveBoardTab() {
                   <img 
                     src={leader.avatarUrl} 
                     alt={leader.name} 
+                    style={{ objectPosition: leader.avatarPosition || 'center center' }}
                     onClick={() => setSelectedImage({ src: leader.avatarUrl, title: `${leader.name} - ${leader.fullTitle}` })}
                   />
                   <span className={`leader-position-tag ${idx < 1 ? 'tag-primary' : idx < 3 ? 'tag-subprimary' : 'tag-normal'}`}>
@@ -132,6 +133,7 @@ export default function ExecutiveBoardTab() {
                   <img 
                     src={mem.avatarUrl} 
                     alt={mem.name} 
+                    style={{ objectPosition: mem.avatarPosition || 'center center' }}
                     onClick={() => setSelectedImage({ src: mem.avatarUrl, title: `${mem.name} - ${mem.position}` })}
                   />
                   <span className="leader-position-tag tag-normal">
