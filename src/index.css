@@ -5055,23 +5055,27 @@ button, input, select, textarea {
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid #F1F5F9;
+  text-align: center;
 }
 
 .leader-avatar-wrapper img {
   width: 140px;
   height: 140px;
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
   object-fit: cover;
-  object-position: center;
-  box-shadow: 0 8px 20px rgba(0, 86, 179, 0.15);
-  border: 4px solid #FFFFFF;
+  object-position: center 20%;
+  margin: 0 auto;
+  display: block;
+  box-shadow: 0 8px 20px rgba(0, 86, 179, 0.15), 0 0 0 4px #FFFFFF, 0 0 0 6px rgba(0, 86, 179, 0.08);
+  border: none;
   cursor: pointer;
   transition: var(--transition);
 }
 
 .leader-avatar-wrapper:hover img {
   transform: scale(1.06);
-  box-shadow: 0 12px 28px rgba(0, 86, 179, 0.25);
+  box-shadow: 0 12px 28px rgba(0, 86, 179, 0.25), 0 0 0 4px #FFFFFF, 0 0 0 6px rgba(0, 86, 179, 0.18);
 }
 
 .leader-position-tag {

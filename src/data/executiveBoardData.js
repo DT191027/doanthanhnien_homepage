@@ -157,8 +157,8 @@ export const EXECUTIVE_BOARD_DATA = {
   ],
 
   inspectionCommittee: [
-    { name: "Đ/c Trần Thị Mai Phương", title: "Chủ nhiệm Ủy ban Kiểm tra Đoàn Xã" },
-    { name: "Đ/c Ng. Hoàng Đặng Ngọc Huyền", title: "Phó Chủ nhiệm UBKT Đoàn Xã" },
-    { name: "Đ/c Ngô Thành Sang", title: "Ủy viên UBKT Đoàn Xã" }
+    { name: "Đ/c Huỳnh Công Tuấn Khương", title: "Chủ nhiệm Ủy ban Kiểm tra Đoàn Xã" },
+    { name: "Đ/c Nguyễn Hoàng Lâm", title: "Phó Chủ nhiệm UBKT Đoàn Xã" },
+    { name: "Đ/c Lê Mai Việt", title: "Ủy viên UBKT Đoàn Xã" }
   ]
 };
