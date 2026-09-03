@@ -2878,31 +2878,20 @@ textarea {
    ========================================================================== */
 @media (max-width: 768px) {
 
-  /* Header: Convert to 2 rows to prevent overlapping on mobile */
+  /* Mobile Header Layout: Clean single row header with hamburger button */
   .header {
-    height: auto !important;
-    /* Cancel 64px height */
-    flex-direction: column !important;
-    padding: 10px 16px !important;
-    gap: 10px !important;
-    background: var(--card) !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    height: var(--header-height) !important;
+    flex-direction: row !important;
+    padding: 0 16px !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    position: relative !important;
   }
 
   .header-left-group {
     width: 100% !important;
-    justify-content: center !important;
-  }
-
-  .header-logo {
-    display: flex !important;
+    justify-content: space-between !important;
     align-items: center !important;
-    justify-content: center !important;
-  }
-
-  .header-brand {
-    gap: 2px !important;
-    align-items: flex-start !important;
   }
 
   .header-brand-name {
@@ -2916,34 +2905,11 @@ textarea {
     color: var(--subtext) !important;
   }
 
-  /* Navigation: Span full width and divide by 3 columns */
-  .header-nav {
-    width: 100% !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    gap: 4px !important;
-    margin: 0 !important;
-    border-top: 1px dashed var(--border);
-    padding-top: 8px;
-  }
-
-  .nav-item {
-    flex: 1 !important;
-    /* Take 1/3 of width each */
-    justify-content: center !important;
-    text-align: center !important;
-    font-size: 11.5px !important;
-    padding: 8px 4px !important;
-    white-space: nowrap !important;
-    border-radius: var(--radius-sm) !important;
-  }
-
   .header-location-pill,
   .header-date,
   .header-badge-year,
   .header-right-group {
     display: none !important;
-    /* Hide meta information to save space */
   }
 
   /* Viewport calculation: Subtract stacked header height (roughly 94px) */
@@ -5134,7 +5100,7 @@ textarea {
   }
 
   .header-nav {
-    display: none;
+    display: none !important;
     position: absolute;
     top: calc(var(--header-height) + 6px);
     left: 12px;
@@ -5152,7 +5118,7 @@ textarea {
   }
 
   .header-nav.mobile-open {
-    display: flex;
+    display: flex !important;
   }
 
   .header-nav .nav-item {
