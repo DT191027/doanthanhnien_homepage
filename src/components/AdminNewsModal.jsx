@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   ShieldCheck, 
   X, 
@@ -10,10 +10,33 @@ import {
   LogOut, 
   LogIn,
   Loader2,
-  CheckCircle2
+  CheckCircle2,
+  AlertCircle,
+  Upload,
+  RefreshCw,
+  Sparkles
 } from 'lucide-react';
 import { fetchUrlMetaData } from '../lib/metaFetcher';
 import { authService } from '../lib/authService';
+
+const PRESET_IMAGES = [
+  {
+    name: 'Hoạt động Tình nguyện',
+    url: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=80',
+  },
+  {
+    name: 'Công trình Thanh niên',
+    url: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200&q=80',
+  },
+  {
+    name: 'Chuyển đổi số',
+    url: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80',
+  },
+  {
+    name: 'Giáo dục Truyền thống',
+    url: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80',
+  },
+];
 
 export default function AdminNewsModal({ isOpen, onClose, onSavePost, isAdminLoggedIn, onLogin, onLogout }) {
   const [username, setUsername] = useState('');
@@ -33,7 +56,9 @@ export default function AdminNewsModal({ isOpen, onClose, onSavePost, isAdminLog
 
   // Metadata fetching states
   const [isFetchingMeta, setIsFetchingMeta] = useState(false);
-  const [metaSuccessMsg, setMetaSuccessMsg] = useState('');
+  const [metaStatus, setMetaStatus] = useState(null); // { type: 'success'|'warning'|'error', text: '' }
+
+  const fileInputRef = useRef(null);
 
   if (!isOpen) return null;
 
@@ -52,24 +77,66 @@ export default function AdminNewsModal({ isOpen, onClose, onSavePost, isAdminLog
     }
   };
 
-  // Auto extract metadata from Facebook link
-  const handleFbLinkChange = async (e) => {
+  // Extract metadata from Facebook link
+  const runMetaExtract = async (urlToFetch) => {
+    if (!urlToFetch || !urlToFetch.trim().startsWith('http')) return;
+
+    setIsFetchingMeta(true);
+    setMetaStatus(null);
+
+    const meta = await fetchUrlMetaData(urlToFetch);
+    setIsFetchingMeta(false);
+
+    if (meta.success) {
+      if (meta.title && !title) setTitle(meta.title);
+      if (meta.abstract && !abstract) setAbstract(meta.abstract);
+      if (meta.date && date === new Date().toISOString().split('T')[0]) setDate(meta.date);
+
+      if (meta.imageUrl) {
+        setImageUrl(meta.imageUrl);
+        setMetaStatus({
+          type: 'success',
+          text: 'Đã tự động bóc tách Tiêu đề, Tóm tắt và Thumbnail ảnh từ Facebook!'
+        });
+      } else {
+        setMetaStatus({
+          type: 'warning',
+          text: 'Đã lấy dữ liệu chữ từ Facebook. Hình ảnh Facebook bị chặn xem trước, bạn có thể tải ảnh hoặc chọn mẫu bên dưới.'
+        });
+      }
+    } else {
+      setMetaStatus({
+        type: 'error',
+        text: meta.error || 'Không thể tự động bóc tách từ link này. Bạn có thể tự điền nội dung.'
+      });
+    }
+  };
+
+  const handleFbLinkChange = (e) => {
     const val = e.target.value;
     setFbLink(val);
-    setMetaSuccessMsg('');
+    if (val.trim().startsWith('http')) {
+      runMetaExtract(val);
+    } else {
+      setMetaStatus(null);
+    }
+  };
 
-    if (val && val.trim().startsWith('http')) {
-      setIsFetchingMeta(true);
-      const meta = await fetchUrlMetaData(val);
-      setIsFetchingMeta(false);
-
-      if (meta.success) {
-        if (meta.imageUrl && !imageUrl) setImageUrl(meta.imageUrl);
-        if (meta.title && !title) setTitle(meta.title);
-        if (meta.abstract && !abstract) setAbstract(meta.abstract);
-        if (meta.date && date === new Date().toISOString().split('T')[0]) setDate(meta.date);
-        setMetaSuccessMsg('Đã tự động bóc tách Thumbnail & MetaData bài đăng từ Facebook!');
+  // Local image upload handling
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Dung lượng ảnh tối đa 5MB');
+        return;
       }
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        if (evt.target?.result) {
+          setImageUrl(evt.target.result);
+        }
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -80,6 +147,8 @@ export default function AdminNewsModal({ isOpen, onClose, onSavePost, isAdminLog
       return;
     }
 
+    const defaultCover = PRESET_IMAGES[0].url;
+
     const newPost = {
       id: 'news-' + Date.now(),
       title: title.trim(),
@@ -88,7 +157,7 @@ export default function AdminNewsModal({ isOpen, onClose, onSavePost, isAdminLog
       category: category,
       author: 'Đoàn Xã Xuân Thới Sơn',
       fbLink: fbLink.trim() || 'https://www.facebook.com/DTNxaTTN?locale=vi_VN',
-      imageUrl: imageUrl.trim() || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200&q=80',
+      imageUrl: imageUrl.trim() || defaultCover,
       views: 1,
       isFeatured: false,
       content: content.trim() || abstract.trim()
@@ -102,7 +171,7 @@ export default function AdminNewsModal({ isOpen, onClose, onSavePost, isAdminLog
     setImageUrl('');
     setContent('');
     setFormError('');
-    setMetaSuccessMsg('');
+    setMetaStatus(null);
     onClose();
   };
 
@@ -167,17 +236,32 @@ export default function AdminNewsModal({ isOpen, onClose, onSavePost, isAdminLog
 
               {formError && <div className="error-alert">{formError}</div>}
 
+              {/* Facebook Link & Auto Metadata */}
               <div className="form-group">
-                <label className="flex-center-gap">
-                  <Link2 size={15} />
-                  Đường dẫn bài viết Facebook (Paste Link Facebook vào đây):
+                <label className="flex-center-gap" style={{ justifyContent: 'space-between' }}>
+                  <span className="flex-center-gap">
+                    <Link2 size={15} />
+                    Đường dẫn bài viết Facebook (Paste Link Facebook vào đây):
+                  </span>
+                  {fbLink.trim() && !isFetchingMeta && (
+                    <button 
+                      type="button" 
+                      className="btn-retry-meta flex-center-gap"
+                      onClick={() => runMetaExtract(fbLink)}
+                      title="Bóc tách lại thông tin"
+                      style={{ background: 'none', border: 'none', color: '#008DD5', fontSize: '12px', cursor: 'pointer' }}
+                    >
+                      <RefreshCw size={13} />
+                      Bóc tách lại
+                    </button>
+                  )}
                 </label>
                 <div className="input-with-loader">
                   <input 
                     type="url" 
                     value={fbLink} 
                     onChange={handleFbLinkChange} 
-                    placeholder="Dán link bài viết Facebook: https://www.facebook.com/DTNxaTTN/posts/..." 
+                    placeholder="Dán link bài viết Facebook: https://www.facebook.com/share/p/..." 
                   />
                   {isFetchingMeta && (
                     <span className="loader-badge flex-center-gap">
@@ -187,29 +271,108 @@ export default function AdminNewsModal({ isOpen, onClose, onSavePost, isAdminLog
                   )}
                 </div>
                 <small className="form-help">Hệ thống sẽ tự động đọc OpenGraph trích xuất Thumbnail ảnh, Ngày đăng và Tiêu đề từ Facebook!</small>
-                {metaSuccessMsg && (
-                  <div className="meta-success-alert flex-center-gap">
-                    <CheckCircle2 size={15} />
-                    {metaSuccessMsg}
+                
+                {metaStatus?.type === 'success' && (
+                  <div className="meta-success-alert flex-center-gap" style={{ marginTop: '8px' }}>
+                    <CheckCircle2 size={15} color="#16A34A" />
+                    <span>{metaStatus.text}</span>
+                  </div>
+                )}
+                {metaStatus?.type === 'warning' && (
+                  <div className="meta-warning-alert flex-center-gap" style={{ marginTop: '8px', padding: '8px 12px', backgroundColor: '#FEF3C7', border: '1px solid #F59E0B', borderRadius: '6px', fontSize: '13px', color: '#92400E' }}>
+                    <AlertCircle size={15} color="#D97706" style={{ flexShrink: 0 }} />
+                    <span>{metaStatus.text}</span>
+                  </div>
+                )}
+                {metaStatus?.type === 'error' && (
+                  <div className="meta-error-alert flex-center-gap" style={{ marginTop: '8px', padding: '8px 12px', backgroundColor: '#FEE2E2', border: '1px solid #EF4444', borderRadius: '6px', fontSize: '13px', color: '#991B1B' }}>
+                    <AlertCircle size={15} color="#DC2626" style={{ flexShrink: 0 }} />
+                    <span>{metaStatus.text}</span>
                   </div>
                 )}
               </div>
 
+              {/* Image URL & Upload / Selection Options */}
               <div className="form-group">
                 <label className="flex-center-gap">
                   <ImageIcon size={15} />
-                  URL Ảnh Hiển Thị (Auto-Thumbnail từ Facebook):
+                  Hình Ảnh Hiển Thị (Auto-Thumbnail / Dán URL / Tải ảnh / Chọn mẫu):
                 </label>
-                <input 
-                  type="url" 
-                  value={imageUrl} 
-                  onChange={(e) => setImageUrl(e.target.value)} 
-                  placeholder="https://scontent... (Tự động lấy từ Facebook bài viết)" 
-                />
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <input 
+                    type="text" 
+                    value={imageUrl} 
+                    onChange={(e) => setImageUrl(e.target.value)} 
+                    placeholder="https://... (URL hình ảnh bài viết)" 
+                    style={{ flex: 1 }}
+                  />
+                  <input 
+                    type="file" 
+                    ref={fileInputRef}
+                    accept="image/*" 
+                    onChange={handleFileUpload} 
+                    style={{ display: 'none' }} 
+                  />
+                  <button 
+                    type="button" 
+                    className="btn-upload-file flex-center-gap"
+                    onClick={() => fileInputRef.current?.click()}
+                    style={{ padding: '0 12px', backgroundColor: '#F3F4F6', border: '1px solid #D1D5DB', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                  >
+                    <Upload size={14} />
+                    Tải từ máy
+                  </button>
+                </div>
+
+                {/* Preset image suggestions */}
+                <div style={{ marginTop: '8px' }}>
+                  <span style={{ fontSize: '12px', color: '#6B7280', display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '6px' }}>
+                    <Sparkles size={13} color="#008DD5" />
+                    Hoặc chọn ảnh mẫu nhanh:
+                  </span>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                    {PRESET_IMAGES.map((preset, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setImageUrl(preset.url)}
+                        style={{
+                          fontSize: '11px',
+                          padding: '4px 8px',
+                          borderRadius: '12px',
+                          border: imageUrl === preset.url ? '1px solid #008DD5' : '1px solid #E5E7EB',
+                          backgroundColor: imageUrl === preset.url ? '#EFF6FF' : '#F9FAFB',
+                          color: imageUrl === preset.url ? '#008DD5' : '#4B5563',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {preset.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 {imageUrl && (
-                  <div className="image-preview-thumbnail">
-                    <img src={imageUrl} alt="Thumbnail Xem trước" />
-                    <span>Xem trước Thumbnail ảnh Facebook</span>
+                  <div className="image-preview-thumbnail" style={{ marginTop: '12px' }}>
+                    <img 
+                      src={imageUrl} 
+                      alt="Thumbnail Xem trước" 
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = PRESET_IMAGES[0].url;
+                      }}
+                      style={{ maxHeight: '160px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #E5E7EB' }}
+                    />
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
+                      <span style={{ fontSize: '12px', color: '#6B7280' }}>Xem trước ảnh đại diện bài viết</span>
+                      <button 
+                        type="button" 
+                        onClick={() => setImageUrl('')}
+                        style={{ fontSize: '11px', color: '#EF4444', background: 'none', border: 'none', cursor: 'pointer' }}
+                      >
+                        Xóa ảnh này
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
