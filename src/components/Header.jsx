@@ -33,8 +33,21 @@ export default function Header({ activeTab, onTabChange, onOpenAdminModal, isAdm
     setIsMobileMenuOpen(false);
   };
 
+  const handleAdminClick = () => {
+    onOpenAdminModal();
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <header className="header">
+      {/* Mobile backdrop for tapping outside menu */}
+      {isMobileMenuOpen && (
+        <div 
+          className="mobile-header-backdrop" 
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Brand logo & location left */}
       <div className="header-left-group">
         <div className="header-logo" style={{ cursor: 'pointer' }} onClick={() => handleNavClick('home')}>
@@ -103,7 +116,7 @@ export default function Header({ activeTab, onTabChange, onOpenAdminModal, isAdm
 
         <button 
           className={`header-admin-btn ${isAdminLoggedIn ? 'logged-in' : ''}`}
-          onClick={onOpenAdminModal}
+          onClick={handleAdminClick}
           title={isAdminLoggedIn ? "Đã đăng nhập Admin Đoàn xã" : "Đăng nhập Admin bài viết"}
         >
           {isAdminLoggedIn ? <ShieldCheck size={15} /> : <Sparkles size={15} />}

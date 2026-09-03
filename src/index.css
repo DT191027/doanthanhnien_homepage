@@ -2779,33 +2779,38 @@ textarea {
    ========================================================================== */
 @media (max-width: 1024px) {
 
-  /* Layout: Stack Map and Sidebar vertically */
+  /* Layout: Stack Map at TOP and Sidebar List at BOTTOM vertically */
   .main-content {
     flex-direction: column !important;
-    height: 100% !important;
+    height: auto !important;
+    overflow-y: auto !important;
   }
 
   .map-panel {
-    flex: 1 !important;
-    /* Automatically expands/contracts depending on sidebar height */
-    height: auto !important;
+    width: 100% !important;
+    height: 380px !important;
+    min-height: 300px !important;
+    flex: none !important;
+    position: relative !important;
+    z-index: 10 !important;
+  }
+
+  .leaflet-map-container {
+    height: 100% !important;
     width: 100% !important;
   }
 
   .sidebar {
     width: 100% !important;
-    height: 44px !important;
-    /* Collapsed: show only bottom sheet handle */
-    flex: none !important;
+    height: auto !important;
+    flex: 1 !important;
     border-left: none !important;
-    border-top: 1px solid var(--border) !important;
-    overflow: hidden !important;
-    transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border-top: 2px solid var(--border) !important;
+    overflow: visible !important;
   }
 
   .sidebar.mobile-expanded {
-    height: 55vh !important;
-    /* Expanded: show list / details in bottom sheet */
+    height: auto !important;
   }
 
   /* Bottom sheet handle styling */
@@ -5101,6 +5106,17 @@ textarea {
     justify-content: space-between;
   }
 
+  .mobile-header-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 95;
+  }
+
   .header-nav {
     display: none;
     width: 100%;
@@ -5110,8 +5126,10 @@ textarea {
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     padding: 8px;
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-lg);
     margin-top: 4px;
+    position: relative;
+    z-index: 100;
   }
 
   .header-nav.mobile-open {

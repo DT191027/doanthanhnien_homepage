@@ -549,7 +549,7 @@ function HamletDetail({ hamlet, onBack }) {
 }
 
 export default function Sidebar({ selectedHamletId, onHamletSelect }) {
-  const [isMobileExpanded, setIsMobileExpanded] = useState(false);
+  const [isMobileExpanded, setIsMobileExpanded] = useState(true);
 
   // Derive the hamlet object from the shared id
   const selectedHamlet = selectedHamletId
