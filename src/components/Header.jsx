@@ -38,7 +38,7 @@ export default function Header({ activeTab, onTabChange, onOpenAdminModal, isAdm
       {/* Brand logo & location left */}
       <div className="header-left-group">
         <div className="header-logo" style={{ cursor: 'pointer' }} onClick={() => handleNavClick('home')}>
-          <img src="/xtslogo.png" alt="Đoàn Thanh Niên Xã Xuân Thới Sơn" />
+          <img src="/xtslogo.png" alt="Đoàn Thanh Niên Xã Xuân Thới Sơn" referrerPolicy="no-referrer" />
           <div className="header-brand">
             <span className="header-brand-name">ĐOÀN TNCS HỒ CHÍ MINH</span>
             <span className="header-brand-sub">XÃ XUÂN THỚI SƠN - TP.HCM</span>

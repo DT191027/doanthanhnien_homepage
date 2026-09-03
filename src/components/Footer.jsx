@@ -7,7 +7,7 @@ export default function Footer({ onTabChange }) {
       <div className="footer-top-container">
         <div className="footer-col brand-col">
           <div className="footer-logo">
-            <img src="/xtslogo.png" alt="Đoàn TNCS Hồ Chí Minh Xã Xuân Thới Sơn" />
+            <img src="/xtslogo.png" alt="Đoàn TNCS Hồ Chí Minh Xã Xuân Thới Sơn" referrerPolicy="no-referrer" />
             <div>
               <h3>ĐOÀN TNCS HỒ CHÍ MINH</h3>
               <p>XÃ XUÂN THỚI SƠN - TP. HỒ CHÍ MINH</p>

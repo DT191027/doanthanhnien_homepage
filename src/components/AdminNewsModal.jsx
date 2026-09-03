@@ -99,9 +99,10 @@ export default function AdminNewsModal({ isOpen, onClose, onSavePost, isAdminLog
           text: 'Đã tự động bóc tách Tiêu đề, Tóm tắt và Thumbnail ảnh từ Facebook!'
         });
       } else {
+        if (!imageUrl) setImageUrl(PRESET_IMAGES[0].url);
         setMetaStatus({
           type: 'warning',
-          text: 'Đã lấy dữ liệu chữ từ Facebook. Hình ảnh Facebook bị chặn xem trước, bạn có thể tải ảnh hoặc chọn mẫu bên dưới.'
+          text: 'Đã lấy dữ liệu chữ từ Facebook. Ảnh xem trước được tự chọn mẫu (bạn có thể dán link ảnh khác hoặc tải ảnh từ máy).'
         });
       }
     } else {
@@ -357,9 +358,13 @@ export default function AdminNewsModal({ isOpen, onClose, onSavePost, isAdminLog
                     <img 
                       src={imageUrl} 
                       alt="Thumbnail Xem trước" 
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = PRESET_IMAGES[0].url;
+                      referrerPolicy="no-referrer"
+                      onError={() => {
+                        setImageUrl(PRESET_IMAGES[0].url);
+                        setMetaStatus({
+                          type: 'warning',
+                          text: 'Link ảnh dán không tải được (lỗi CORS/Hotlink). Hệ thống đã tự động chuyển sang ảnh mẫu tiêu chuẩn.'
+                        });
                       }}
                       style={{ maxHeight: '160px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #E5E7EB' }}
                     />

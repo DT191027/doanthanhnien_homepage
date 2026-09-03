@@ -58,6 +58,7 @@ export default function ExecutiveBoardTab() {
               src={EXECUTIVE_BOARD_DATA.bannerUrl} 
               alt="Sơ đồ Ban Thường Vụ Đoàn Xã Xuân Thới Sơn Khoá I" 
               className="official-banner-img"
+              referrerPolicy="no-referrer"
             />
             <div className="banner-hover-overlay flex-center-gap">
               <Maximize2 size={20} />
@@ -83,6 +84,7 @@ export default function ExecutiveBoardTab() {
                   <img 
                     src={leader.avatarUrl} 
                     alt={leader.name} 
+                    referrerPolicy="no-referrer"
                     style={{ objectPosition: leader.avatarPosition || 'center center' }}
                     onClick={() => setSelectedImage({ src: leader.avatarUrl, title: `${leader.name} - ${leader.fullTitle}` })}
                   />
@@ -133,6 +135,7 @@ export default function ExecutiveBoardTab() {
                   <img 
                     src={mem.avatarUrl} 
                     alt={mem.name} 
+                    referrerPolicy="no-referrer"
                     style={{ objectPosition: mem.avatarPosition || 'center center' }}
                     onClick={() => setSelectedImage({ src: mem.avatarUrl, title: `${mem.name} - ${mem.position}` })}
                   />
@@ -199,7 +202,7 @@ export default function ExecutiveBoardTab() {
             <button className="btn-close-lightbox" onClick={() => setSelectedImage(null)}>
               <X size={24} />
             </button>
-            <img src={selectedImage.src} alt={selectedImage.title} className="lightbox-img" />
+            <img src={selectedImage.src} alt={selectedImage.title} className="lightbox-img" referrerPolicy="no-referrer" />
             <div className="lightbox-caption">{selectedImage.title}</div>
           </div>
         </div>

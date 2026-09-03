@@ -14,6 +14,12 @@ import {
   Newspaper
 } from 'lucide-react';
 
+const DEFAULT_FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200&q=80';
+const handleImgError = (e) => {
+  e.target.onerror = null;
+  e.target.src = DEFAULT_FALLBACK_IMAGE;
+};
+
 export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -128,7 +134,7 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
       {featuredPost && (
         <section className="featured-news-card" onClick={() => setActiveArticleModal(featuredPost)}>
           <div className="featured-img-container">
-            <img src={featuredPost.imageUrl} alt={featuredPost.title} />
+            <img src={featuredPost.imageUrl || DEFAULT_FALLBACK_IMAGE} alt={featuredPost.title} referrerPolicy="no-referrer" onError={handleImgError} />
             <span className="featured-badge">{featuredPost.category}</span>
           </div>
           <div className="featured-content">
@@ -179,7 +185,7 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
           {regularPosts.map(post => (
             <article key={post.id} className="news-card-item" onClick={() => setActiveArticleModal(post)}>
               <div className="card-img-wrapper">
-                <img src={post.imageUrl} alt={post.title} />
+                <img src={post.imageUrl || DEFAULT_FALLBACK_IMAGE} alt={post.title} referrerPolicy="no-referrer" onError={handleImgError} />
                 <span className="card-cat-tag">{post.category}</span>
               </div>
               <div className="card-body">
@@ -270,7 +276,7 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
           <div className="article-modal-card" onClick={(e) => e.stopPropagation()}>
             <button className="btn-close-modal" onClick={() => setActiveArticleModal(null)}>&times;</button>
             <div className="article-modal-hero">
-              <img src={activeArticleModal.imageUrl} alt={activeArticleModal.title} />
+              <img src={activeArticleModal.imageUrl || DEFAULT_FALLBACK_IMAGE} alt={activeArticleModal.title} referrerPolicy="no-referrer" onError={handleImgError} />
               <span className="modal-cat-tag">{activeArticleModal.category}</span>
             </div>
             <div className="article-modal-body">

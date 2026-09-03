@@ -70,7 +70,7 @@ export default function SplashScreen({ isMapReady, onFinished }) {
 
         {/* Brand logo container */}
         <div className="splash-logo-container">
-          <img src="/xtslogo.png" alt="Logo Đoàn TNCS" className="splash-logo" />
+          <img src="/xtslogo.png" alt="Logo Đoàn TNCS" className="splash-logo" referrerPolicy="no-referrer" />
         </div>
 
         {/* Text descriptions */}
