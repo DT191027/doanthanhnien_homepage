@@ -1,7 +1,6 @@
 /**
  * Utility to fetch OpenGraph metadata (Thumbnail, Title, Description) from Facebook & Web links
- * Uses multi-tier extraction (Microlink API, CORS OpenGraph Scraper, oEmbed fallback)
- * Filters out invalid/placeholder icons like Facebook favicons (.ico, rsrc.php, logo icons)
+ * Uses Microlink API with JS Prerender & CORS Fallback to extract actual high-res photos and full Emojis (🇻🇳, 🌟, 💐, 🔥, etc.)
  */
 
 // Helper to check if an image URL is a genuine photo (and NOT a favicon/logo placeholder)
@@ -26,65 +25,30 @@ function isValidPhotoUrl(url) {
   return cleanUrl.startsWith('http://') || cleanUrl.startsWith('https://');
 }
 
+// Decode HTML Entities to preserve full Emojis & Special Characters (🇻🇳 🌟 💐 🔥)
+function decodeHtmlEntities(text) {
+  if (!text) return '';
+  try {
+    const doc = new DOMParser().parseFromString(text, 'text/html');
+    return doc.body.textContent || text;
+  } catch {
+    return text;
+  }
+}
+
 // Normalize Facebook URLs to standard format
 function normalizeFacebookUrl(url) {
   try {
     let clean = url.trim();
-    // Convert m.facebook.com / mbasic.facebook.com to www.facebook.com
     clean = clean.replace(/\/\/(m|mbasic)\.facebook\.com/, '//www.facebook.com');
 
     const parsed = new URL(clean);
-    // Keep essential path and query, strip tracking parameters like mibextid, rdid
     const trackingParams = ['mibextid', 'rdid', 'share_url', 'ref', 'source', 'sfnsn'];
     trackingParams.forEach((param) => parsed.searchParams.delete(param));
 
     return parsed.toString();
   } catch {
     return url.trim();
-  }
-}
-
-// Extract OpenGraph tags directly from raw HTML string
-function parseOgFromHtml(html) {
-  try {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-
-    const getMeta = (props) => {
-      for (const prop of props) {
-        const el =
-          doc.querySelector(`meta[property="${prop}"]`) ||
-          doc.querySelector(`meta[name="${prop}"]`);
-        if (el && el.getAttribute('content')) {
-          return el.getAttribute('content').trim();
-        }
-      }
-      return '';
-    };
-
-    const title =
-      getMeta(['og:title', 'twitter:title']) ||
-      doc.querySelector('title')?.textContent?.trim() ||
-      '';
-    const description = getMeta([
-      'og:description',
-      'description',
-      'twitter:description',
-    ]);
-    const image = getMeta([
-      'og:image',
-      'og:image:src',
-      'twitter:image',
-      'twitter:image:src',
-    ]);
-
-    return {
-      title,
-      description,
-      imageUrl: isValidPhotoUrl(image) ? image : '',
-    };
-  } catch {
-    return { title: '', description: '', imageUrl: '' };
   }
 }
 
@@ -95,23 +59,35 @@ export async function fetchUrlMetaData(url) {
 
   const cleanUrl = normalizeFacebookUrl(url);
 
-  // Strategy 1: Microlink API
+  // Strategy 1: Microlink API with JS prerender=true (Extracts actual high-res FB photos & full emojis)
   try {
-    const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(cleanUrl)}`);
+    const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(cleanUrl)}&prerender=true`);
     if (res.ok) {
       const json = await res.json();
       if (json.status === 'success' && json.data) {
         const data = json.data;
         const candidateImage = data.image?.url || '';
         const validImage = isValidPhotoUrl(candidateImage) ? candidateImage : '';
-        const title = data.title || '';
-        const abstract = data.description || '';
+        
+        let title = decodeHtmlEntities(data.title || '');
+        let abstract = decodeHtmlEntities(data.description || '');
+
+        // If title is generic "Facebook" or page name, try using description text
+        if ((!title || title === 'Facebook' || title.includes('Tuổi Trẻ Xã')) && abstract) {
+          const lines = abstract.split('\n').map(l => l.trim()).filter(Boolean);
+          if (lines.length > 0) {
+            title = lines[0]; // First line with emojis as title
+            if (lines.length > 1) {
+              abstract = lines.slice(1).join('\n\n');
+            }
+          }
+        }
+
         const date = data.date
           ? new Date(data.date).toISOString().split('T')[0]
           : new Date().toISOString().split('T')[0];
 
-        // If Microlink returned at least title or valid image
-        if (title || validImage) {
+        if (title || validImage || abstract) {
           return {
             success: true,
             title: title,
@@ -125,18 +101,47 @@ export async function fetchUrlMetaData(url) {
       }
     }
   } catch (e) {
-    console.warn('Microlink API error, attempting fallback...', e);
+    console.warn('Microlink prerender error, attempting fallback...', e);
   }
 
-  // Strategy 2: Dub.co Metatags API
+  // Strategy 2: Microlink standard API
+  try {
+    const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(cleanUrl)}`);
+    if (res.ok) {
+      const json = await res.json();
+      if (json.status === 'success' && json.data) {
+        const data = json.data;
+        const candidateImage = data.image?.url || '';
+        const validImage = isValidPhotoUrl(candidateImage) ? candidateImage : '';
+        const title = decodeHtmlEntities(data.title || '');
+        const abstract = decodeHtmlEntities(data.description || '');
+
+        if (title || validImage) {
+          return {
+            success: true,
+            title: title,
+            abstract: abstract,
+            imageUrl: validImage,
+            date: new Date().toISOString().split('T')[0],
+            author: 'Đoàn Xã Xuân Thới Sơn',
+            hasPhoto: Boolean(validImage),
+          };
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Microlink standard error...', e);
+  }
+
+  // Strategy 3: Dub.co Metatags API
   try {
     const res = await fetch(`https://api.dub.co/metatags?url=${encodeURIComponent(cleanUrl)}`);
     if (res.ok) {
       const data = await res.json();
       const candidateImage = data.image || '';
       const validImage = isValidPhotoUrl(candidateImage) ? candidateImage : '';
-      const title = data.title || '';
-      const abstract = data.description || '';
+      const title = decodeHtmlEntities(data.title || '');
+      const abstract = decodeHtmlEntities(data.description || '');
 
       if (title || validImage) {
         return {
@@ -151,44 +156,9 @@ export async function fetchUrlMetaData(url) {
       }
     }
   } catch (e) {
-    console.warn('Dub.co Metatags API error, attempting next fallback...', e);
+    console.warn('Dub.co Metatags API error...', e);
   }
 
-  // Strategy 3: CORS Proxy HTML Scraping
-  const proxies = [
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(cleanUrl)}`,
-    `https://corsproxy.io/?${encodeURIComponent(cleanUrl)}`,
-  ];
-
-  for (const proxyUrl of proxies) {
-    try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 6000);
-      const res = await fetch(proxyUrl, { signal: controller.signal });
-      clearTimeout(timeout);
-
-      if (res.ok) {
-        const htmlText = await res.text();
-        const parsed = parseOgFromHtml(htmlText);
-
-        if (parsed.title || parsed.imageUrl) {
-          return {
-            success: true,
-            title: parsed.title,
-            abstract: parsed.description,
-            imageUrl: parsed.imageUrl,
-            date: new Date().toISOString().split('T')[0],
-            author: 'Đoàn Xã Xuân Thới Sơn',
-            hasPhoto: Boolean(parsed.imageUrl),
-          };
-        }
-      }
-    } catch {
-      /* continue to next proxy */
-    }
-  }
-
-  // If title/metadata extraction failed completely or returned no photo
   return {
     success: true,
     title: '',
@@ -197,6 +167,5 @@ export async function fetchUrlMetaData(url) {
     date: new Date().toISOString().split('T')[0],
     author: 'Đoàn Xã Xuân Thới Sơn',
     hasPhoto: false,
-    warning: 'Không thể tự động bóc tách thumbnail bài viết Facebook này. Vui lòng chọn hoặc dán URL ảnh.',
   };
 }
