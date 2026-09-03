@@ -246,7 +246,8 @@ textarea {
 .header-nav {
   display: flex;
   align-items: center;
-  gap: var(--space-xl);
+  justify-content: center;
+  gap: 28px;
 }
 
 .nav-item {
@@ -255,12 +256,19 @@ textarea {
   cursor: pointer;
   font-family: inherit;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 700;
   color: var(--subtext);
-  padding: 8px 0;
+  padding: 8px 4px;
   position: relative;
   transition: color var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-item .nav-icon {
+  flex-shrink: 0;
 }
 
 .nav-item:hover {
@@ -5131,6 +5139,9 @@ textarea {
     color: #334155;
     background: transparent;
     transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   .header-nav .nav-item:hover,
