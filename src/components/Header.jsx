@@ -105,6 +105,16 @@ export default function Header({ activeTab, onTabChange, onOpenAdminModal, isAdm
           <Users className="nav-icon" size={16} />
           <span>BCH Đoàn xã</span>
         </button>
+
+        <div className="mobile-nav-divider" />
+
+        <button 
+          className={`nav-item mobile-admin-btn ${isAdminLoggedIn ? 'logged-in' : ''}`}
+          onClick={handleAdminClick}
+        >
+          {isAdminLoggedIn ? <ShieldCheck className="nav-icon" size={16} color="#16A34A" /> : <Sparkles className="nav-icon" size={16} color="#008DD5" />}
+          <span>{isAdminLoggedIn ? 'Cán Bộ Đoàn Xã (Quản Trị)' : 'Đăng Nhập Quản Trị (Admin)'}</span>
+        </button>
       </nav>
 
       {/* Actions right */}
