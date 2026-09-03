@@ -73,8 +73,8 @@
   --radius-full: 9999px;
 
   /* Typography */
-  --font-body: 'Be Vietnam Pro', 'Inter', sans-serif;
-  --font-heading: 'Be Vietnam Pro', 'Inter', sans-serif;
+  --font-body: 'Be Vietnam Pro', 'Inter', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
+  --font-heading: 'Be Vietnam Pro', 'Inter', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
 
   /* Transitions */
   --transition-fast: 100ms ease;
@@ -4825,11 +4825,18 @@ textarea {
   line-height: 1.35;
 }
 
+.article-full-text {
+  white-space: pre-line;
+  word-break: break-word;
+}
+
 .article-full-text p {
   font-size: 15px;
   color: var(--subtext);
   line-height: 1.7;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+  white-space: pre-line;
+  word-break: break-word;
 }
 
 .modal-footer-actions {

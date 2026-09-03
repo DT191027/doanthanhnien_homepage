@@ -285,9 +285,9 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
                 <span>• {activeArticleModal.author}</span>
               </div>
               <h2>{activeArticleModal.title}</h2>
-              <div className="article-full-text">
-                {activeArticleModal.content.split('\n\n').map((paragraph, idx) => (
-                  <p key={idx}>{paragraph}</p>
+              <div className="article-full-text" style={{ whiteSpace: 'pre-line', wordBreak: 'break-word' }}>
+                {(activeArticleModal.content || activeArticleModal.abstract).split(/\n\s*\n/).map((paragraph, idx) => (
+                  <p key={idx} style={{ whiteSpace: 'pre-line', marginBottom: '12px' }}>{paragraph}</p>
                 ))}
               </div>
 

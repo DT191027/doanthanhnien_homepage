@@ -29,7 +29,8 @@ function isValidPhotoUrl(url) {
 function decodeHtmlEntities(text) {
   if (!text) return '';
   try {
-    const doc = new DOMParser().parseFromString(text, 'text/html');
+    const cleanHtml = text.replace(/<br\s*[\/]?>/gi, '\n');
+    const doc = new DOMParser().parseFromString(cleanHtml, 'text/html');
     return doc.body.textContent || text;
   } catch {
     return text;

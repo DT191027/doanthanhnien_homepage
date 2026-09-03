@@ -566,7 +566,7 @@ export default function AdminNewsModal({ isOpen, onClose, onSavePost, isAdminLog
                         <h3 className="card-title" style={{ fontSize: '16px', lineHeight: '1.4' }}>
                           {title || 'Chưa nhập tiêu đề bài viết...'}
                         </h3>
-                        <p className="card-abstract">
+                        <p className="card-abstract" style={{ whiteSpace: 'pre-line', wordBreak: 'break-word' }}>
                           {abstract || 'Chưa nhập nội dung tóm tắt...'}
                         </p>
                         
@@ -612,9 +612,9 @@ export default function AdminNewsModal({ isOpen, onClose, onSavePost, isAdminLog
                         <h2 style={{ fontSize: '20px', lineHeight: '1.4', margin: '8px 0 12px' }}>
                           {title || 'Tiêu đề bài viết xem trước'}
                         </h2>
-                        <div className="article-full-text" style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                          {(content || abstract || 'Nội dung chi tiết bài viết...').split('\n\n').map((paragraph, idx) => (
-                            <p key={idx}>{paragraph}</p>
+                        <div className="article-full-text" style={{ fontSize: '14px', lineHeight: '1.6', whiteSpace: 'pre-line', wordBreak: 'break-word' }}>
+                          {(content || abstract || 'Nội dung chi tiết bài viết...').split(/\n\s*\n/).map((paragraph, idx) => (
+                            <p key={idx} style={{ whiteSpace: 'pre-line', marginBottom: '12px' }}>{paragraph}</p>
                           ))}
                         </div>
                       </div>
