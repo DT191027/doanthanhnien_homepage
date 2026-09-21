@@ -650,7 +650,11 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
             </div>
             <div className="legend-item">
               <span className="legend-color-box default-boundary"></span>
-              <span>Vùng ranh giới 30 Ấp</span>
+              <span>Vùng ranh giới 30 Ấp Xuân Thới Sơn</span>
+            </div>
+            <div className="legend-item">
+              <span className="legend-color-box outer-boundary">🗺️</span>
+              <span>Địa phận các xã/thị trấn giáp ranh</span>
             </div>
           </div>
         </div>
