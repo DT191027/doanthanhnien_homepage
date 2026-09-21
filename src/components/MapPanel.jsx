@@ -24,11 +24,16 @@ function findHamlet(name = '') {
 function makeTooltip(hamlet) {
   const areaPart = hamlet.dienTich ? `${hamlet.dienTich} ha` : '—';
   const perimeterPart = hamlet.chuVi ? ` · ${hamlet.chuVi} km` : '';
-  const popPart = hamlet.danSo ? ` · ${hamlet.danSo.toLocaleString('vi-VN')} người` : ' · Chưa có số liệu dân số';
+  const popPart = hamlet.soHoDan ? ` · ${hamlet.soHoDan.toLocaleString('vi-VN')} hộ` : '';
+  const mergedFrom = hamlet.tenCu ? `<div class="map-tooltip-merged">🔄 Sáp nhập từ: <strong>${hamlet.tenCu}</strong></div>` : '';
   return `<div class="map-tooltip">
-    <div class="map-tooltip-name">${hamlet.ten}</div>
-    <div class="map-tooltip-meta">${areaPart}${perimeterPart}${popPart}</div>
-    <div class="map-tooltip-hint">Nhấn để xem chi tiết</div>
+    <div class="map-tooltip-header">
+      <div class="map-tooltip-name">${hamlet.ten}</div>
+      <span class="map-tooltip-badge">Ấp mới</span>
+    </div>
+    ${mergedFrom}
+    <div class="map-tooltip-meta">📐 ${areaPart}${perimeterPart}${popPart}</div>
+    <div class="map-tooltip-hint">Nhấn để xem thông tin chi tiết</div>
   </div>`;
 }
 
@@ -541,7 +546,7 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
       <div className="map-overlay-top">
         <div className="map-stat-pill">
           <span className="dot" />
-          Xã Xuân Thới Sơn · 30 ấp
+          Xã Xuân Thới Sơn · 30 ấp mới (Sau sáp nhập)
         </div>
 
         <div className="map-mode-toggle">

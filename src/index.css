@@ -5931,3 +5931,33 @@ textarea {
   border-color: #008DD5;
   transform: scale(1.05);
 }
+
+/* Tooltip Merger Details */
+.map-tooltip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.map-tooltip-badge {
+  background: #E0F2FE;
+  color: #0284C7;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.map-tooltip-merged {
+  font-size: 11px;
+  color: #047857;
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  padding: 3px 6px;
+  border-radius: 4px;
+  margin: 4px 0;
+  line-height: 1.35;
+}
