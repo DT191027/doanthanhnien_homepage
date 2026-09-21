@@ -357,11 +357,19 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
 
       layer.setStyle({
         fillColor: color,
-        color: isActive ? '#1F2937' : color,
+        color: isActive ? '#0F172A' : color,
         fillOpacity: isActive ? 0.55 : 0.18,
-        weight: isActive ? 3 : 1.5,
+        weight: isActive ? 4 : 1.5,
         dashArray: isActive ? null : '5 3',
+        lineCap: 'round',
+        lineJoin: 'round',
       });
+
+      if (isActive) {
+        try {
+          layer.bringToFront();
+        } catch { /* ignore */ }
+      }
 
       if (isActive && mapRef.current) {
         try {
@@ -415,10 +423,12 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
         const color = id ? getColor(id) : '#64748B';
         return {
           fillColor: color,
-          color: isActive ? '#1F2937' : color,
+          color: isActive ? '#0F172A' : color,
           fillOpacity: isActive ? 0.55 : 0.18,
-          weight: isActive ? 3 : 1.5,
+          weight: isActive ? 4 : 1.5,
           dashArray: isActive ? null : '5 3',
+          lineCap: 'round',
+          lineJoin: 'round',
         };
       },
       onEachFeature: (feature, layer) => {

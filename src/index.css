@@ -5961,3 +5961,13 @@ textarea {
   margin: 4px 0;
   line-height: 1.35;
 }
+
+/* Remove browser default rectangular focus ring on Leaflet interactive paths */
+.leaflet-container path:focus,
+.leaflet-container path.leaflet-interactive:focus,
+.leaflet-container svg:focus,
+.leaflet-interactive:focus,
+.leaflet-marker-icon:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
