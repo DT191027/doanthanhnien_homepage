@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { hamlets, allDiaChiDo } from '../data/hamlets';
+import { fallbackKMLText } from '../data/xuanThoiSonKMLData';
 
 /* ─── Palette ──────────────────────────────────────────────── */
 const PALETTE = ['#008DD5', '#00B4D8', '#22C55E', '#F59E0B', '#E53935'];
@@ -91,7 +92,7 @@ async function fetchKMLText() {
   for (const url of proxies) {
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 10000);
+      const timeout = setTimeout(() => controller.abort(), 4000);
       const res = await fetch(url, { signal: controller.signal });
       clearTimeout(timeout);
 
@@ -106,7 +107,8 @@ async function fetchKMLText() {
       /* try next */
     }
   }
-  return null;
+  // Fall back to preloaded offline KML data
+  return fallbackKMLText;
 }
 
 /* ──────────────────────────────────────────────────────────── */
@@ -117,9 +119,12 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
   const hamletLayersRef = useRef({}); // id → layer
   const selectedIdRef = useRef(selectedHamletId);
   const [kmlStatus, setKmlStatus] = useState('loading');
-  const [mapMode, setMapMode] = useState('streets'); // 'streets' | 'satellite'
+  const [mapMode, setMapMode] = useState('streets'); // 'streets' | 'satellite' | 'carto'
+  const [showLegend, setShowLegend] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const streetsLayerRef = useRef(null);
   const satelliteLayerRef = useRef(null);
+  const cartoLayerRef = useRef(null);
 
   // Keep ref current for stale-closure safety in event handlers
   useEffect(() => {
@@ -158,25 +163,25 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
     }
   }, [activeTab]);
 
-  // Handle map mode switching (Streets vs Satellite)
+  // Handle map mode switching (Streets vs Satellite vs CARTO)
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
 
-    if (mapMode === 'satellite') {
-      if (streetsLayerRef.current) {
-        map.removeLayer(streetsLayerRef.current);
+    // Remove all base layers first
+    [streetsLayerRef.current, satelliteLayerRef.current, cartoLayerRef.current].forEach((layer) => {
+      if (layer && map.hasLayer(layer)) {
+        map.removeLayer(layer);
       }
-      if (satelliteLayerRef.current) {
-        satelliteLayerRef.current.addTo(map);
-      }
-    } else {
-      if (satelliteLayerRef.current) {
-        map.removeLayer(satelliteLayerRef.current);
-      }
-      if (streetsLayerRef.current) {
-        streetsLayerRef.current.addTo(map);
-      }
+    });
+
+    // Add selected base layer
+    if (mapMode === 'satellite' && satelliteLayerRef.current) {
+      satelliteLayerRef.current.addTo(map);
+    } else if (mapMode === 'carto' && cartoLayerRef.current) {
+      cartoLayerRef.current.addTo(map);
+    } else if (streetsLayerRef.current) {
+      streetsLayerRef.current.addTo(map);
     }
   }, [mapMode]);
 
@@ -205,20 +210,21 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
 
     const map = L.map(container, {
       center: [10.888141, 106.582284],
-      zoom: 15,
+      zoom: 14.8,
       zoomControl: false,
     });
 
+    // Google Maps Standard Street Layer - Ultra detailed, zero 403 blocks
     const streetsLayer = L.tileLayer(
-      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      'https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
       {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        subdomains: 'abc',
-        maxZoom: 19,
+        attribution: '&copy; Google Maps',
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        maxZoom: 20,
       }
     );
 
+    // Google Maps Satellite Hybrid Layer
     const satelliteLayer = L.tileLayer(
       'https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
       {
@@ -228,10 +234,21 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
       }
     );
 
+    // CARTO Voyager Tile Layer (Sáng & Hiện đại)
+    const cartoLayer = L.tileLayer(
+      'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+      {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+        subdomains: ['a', 'b', 'c', 'd'],
+        maxZoom: 20,
+      }
+    );
+
     streetsLayer.addTo(map);
 
     streetsLayerRef.current = streetsLayer;
     satelliteLayerRef.current = satelliteLayer;
+    cartoLayerRef.current = cartoLayer;
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
@@ -472,9 +489,31 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
     if (onMapLoaded) onMapLoaded();
   }
 
+  const handleResetView = () => {
+    if (!mapRef.current) return;
+    mapRef.current.flyTo([10.888141, 106.582284], 14.5, {
+      duration: 1.2,
+      easeLinearity: 0.25,
+    });
+  };
+
+  const handleToggleFullscreen = () => {
+    const el = containerRef.current?.parentElement;
+    if (!el) return;
+    if (!document.fullscreenElement) {
+      if (el.requestFullscreen) {
+        el.requestFullscreen().then(() => setIsFullscreen(true)).catch(() => {});
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().then(() => setIsFullscreen(false)).catch(() => {});
+      }
+    }
+  };
+
   /* ── Render ──────────────────────────────────────────────── */
   return (
-    <div className="map-panel">
+    <div className={`map-panel ${isFullscreen ? 'map-panel-fullscreen' : ''}`}>
       {/* Leaflet mount point */}
       <div ref={containerRef} className="leaflet-map-container" />
 
@@ -482,7 +521,7 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
       {kmlStatus === 'loading' && (
         <div className="map-status-overlay">
           <div className="map-spinner" />
-          <span>Đang tải ranh giới ấp...</span>
+          <span>Đang tải ranh giới ấp xã Xuân Thới Sơn...</span>
         </div>
       )}
 
@@ -509,29 +548,98 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
           <button 
             className={`toggle-btn ${mapMode === 'streets' ? 'active' : ''}`}
             onClick={() => setMapMode('streets')}
+            title="Bản đồ Google Maps chuẩn (Đường xá, ngõ hẻm)"
           >
-            Bản đồ
+            🗺️ Bản đồ
           </button>
           <button 
             className={`toggle-btn ${mapMode === 'satellite' ? 'active' : ''}`}
             onClick={() => setMapMode('satellite')}
+            title="Ảnh vệ tinh Google Maps độ phân giải cao"
           >
-            Vệ tinh
+            🛰️ Vệ tinh
+          </button>
+          <button 
+            className={`toggle-btn ${mapMode === 'carto' ? 'active' : ''}`}
+            onClick={() => setMapMode('carto')}
+            title="Bản đồ CARTO Vector phong cách hiện đại"
+          >
+            🎨 CARTO
           </button>
         </div>
 
-        <div className="map-stat-pill" style={{ marginLeft: 'auto' }}>
-          <svg
-            width="12" height="12" viewBox="0 0 24 24" fill="none"
-            stroke="#008DD5" strokeWidth="2.5" strokeLinecap="round"
-            strokeLinejoin="round"
+        <div className="map-action-buttons">
+          <button 
+            className="map-action-btn"
+            onClick={handleResetView}
+            title="Quay về trung tâm xã Xuân Thới Sơn"
           >
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-            <circle cx="12" cy="10" r="3"/>
-          </svg>
-          Xã Xuân Thới Sơn - TP.HCM
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="3"/>
+              <line x1="12" y1="2" x2="12" y2="5"/>
+              <line x1="12" y1="19" x2="12" y2="22"/>
+              <line x1="2" y1="12" x2="5" y2="12"/>
+              <line x1="19" y1="12" x2="22" y2="12"/>
+            </svg>
+            <span>Trung tâm</span>
+          </button>
+
+          <button 
+            className={`map-action-btn ${showLegend ? 'active' : ''}`}
+            onClick={() => setShowLegend(!showLegend)}
+            title="Bật/Tắt chú thích bản đồ"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="8" y1="6" x2="21" y2="6"/>
+              <line x1="8" y1="12" x2="21" y2="12"/>
+              <line x1="8" y1="18" x2="21" y2="18"/>
+              <line x1="3" y1="6" x2="3.01" y2="6"/>
+              <line x1="3" y1="12" x2="3.01" y2="12"/>
+              <line x1="3" y1="18" x2="3.01" y2="18"/>
+            </svg>
+            <span>Chú thích</span>
+          </button>
+
+          <button 
+            className="map-action-btn"
+            onClick={handleToggleFullscreen}
+            title="Bật/Tắt phóng to toàn màn hình"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              {isFullscreen ? (
+                <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>
+              ) : (
+                <path d="M15 3h6v6M9 21H3v-6M21 9v6M3 9v6M21 3l-7 7M3 21l7-7"/>
+              )}
+            </svg>
+          </button>
         </div>
       </div>
+
+      {/* Legend Card Overlay */}
+      {showLegend && (
+        <div className="map-legend-card">
+          <div className="legend-header">
+            <span>Chú thích bản đồ</span>
+            <button className="legend-close" onClick={() => setShowLegend(false)}>✕</button>
+          </div>
+          <div className="legend-body">
+            <div className="legend-item">
+              <span className="legend-color-box red-flag">🚩</span>
+              <span>Địa chỉ đỏ / Di tích lịch sử</span>
+            </div>
+            <div className="legend-item">
+              <span className="legend-color-box active-boundary"></span>
+              <span>Ấp đang chọn (Ranh giới đậm)</span>
+            </div>
+            <div className="legend-item">
+              <span className="legend-color-box default-boundary"></span>
+              <span>Vùng ranh giới 30 Ấp</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Hint (only after KML loads) */}
       {kmlStatus === 'loaded' && (

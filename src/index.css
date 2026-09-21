@@ -5778,3 +5778,156 @@ textarea {
   border: 1px solid #B91C1C !important;
   font-weight: 700 !important;
 }
+
+/* ── Map Enhancements & Controls ─────────────────────────────── */
+.map-panel-fullscreen {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+.map-action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.map-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--card, #FFFFFF);
+  border: 1px solid var(--border, #E2E8F0);
+  border-radius: var(--radius-full, 9999px);
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text, #1E293B);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+}
+
+.map-action-btn:hover {
+  background: var(--primary, #008DD5);
+  color: #FFFFFF;
+  border-color: var(--primary, #008DD5);
+  transform: translateY(-1px);
+}
+
+.map-action-btn.active {
+  background: var(--primary, #008DD5);
+  color: #FFFFFF;
+  border-color: var(--primary, #008DD5);
+}
+
+.map-legend-card {
+  position: absolute;
+  top: 60px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border, #E2E8F0);
+  border-radius: 10px;
+  padding: 10px 14px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+  min-width: 210px;
+  animation: fadeIn 0.2s ease;
+}
+
+.legend-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0F172A;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #F1F5F9;
+  margin-bottom: 8px;
+}
+
+.legend-close {
+  background: none;
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+  color: #94A3B8;
+  padding: 2px 4px;
+}
+
+.legend-close:hover {
+  color: #0F172A;
+}
+
+.legend-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #334155;
+}
+
+.legend-color-box {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.legend-color-box.red-flag {
+  background: #FEF2F2;
+  border: 1px solid #FCA5A5;
+}
+
+.legend-color-box.active-boundary {
+  background: rgba(0, 141, 213, 0.4);
+  border: 2px solid #1F2937;
+}
+
+.legend-color-box.default-boundary {
+  background: rgba(34, 197, 94, 0.25);
+  border: 1px dashed #22C55E;
+}
+
+/* Enhancements for Map Polygon Labels */
+.map-polygon-label-wrapper {
+  background: none;
+  border: none;
+}
+
+.map-polygon-label {
+  background: rgba(255, 255, 255, 0.92);
+  color: #0F172A;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 141, 213, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.map-polygon-label:hover {
+  background: #008DD5;
+  color: #FFFFFF;
+  border-color: #008DD5;
+  transform: scale(1.05);
+}
