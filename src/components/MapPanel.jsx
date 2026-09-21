@@ -122,6 +122,7 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const hamletLayersRef = useRef({}); // id → layer
+  const allBoundsRef = useRef(null); // Full bounds of all 30 hamlets
   const selectedIdRef = useRef(selectedHamletId);
   const [kmlStatus, setKmlStatus] = useState('loading');
   const [mapMode, setMapMode] = useState('streets'); // 'streets' | 'satellite' | 'carto'
@@ -146,14 +147,14 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
       const timer = setTimeout(() => {
         map.invalidateSize({ animate: false });
         
-        // Focus/Zoom to selected hamlet if present
+        // Focus/Zoom to selected hamlet if present, else expand to full commune bounds
         if (selectedIdRef.current && hamletLayersRef.current[selectedIdRef.current]) {
           const activeLayer = hamletLayersRef.current[selectedIdRef.current];
           try {
             const bounds = activeLayer.getBounds?.();
             if (bounds?.isValid()) {
               map.fitBounds(bounds, {
-                padding: [40, 40],
+                padding: [50, 50],
                 maxZoom: 16,
                 animate: true,
               });
@@ -161,6 +162,8 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
           } catch (e) {
             console.warn("Could not focus bounds on visibility change:", e);
           }
+        } else if (allBoundsRef.current) {
+          map.fitBounds(allBoundsRef.current, { padding: [25, 25], animate: true });
         }
       }, 50); // slight timeout to allow CSS layout to settle
 
@@ -348,7 +351,7 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
   }
 
 
-  /* ── Sync polygon style with selected hamlet ─────────────── */
+  /* ── Sync polygon style & position with selected hamlet ─────────── */
   useEffect(() => {
     Object.entries(hamletLayersRef.current).forEach(([idStr, layer]) => {
       const id = parseInt(idStr, 10);
@@ -370,20 +373,27 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
           layer.bringToFront();
         } catch { /* ignore */ }
       }
+    });
 
-      if (isActive && mapRef.current) {
+    if (mapRef.current) {
+      if (selectedHamletId && hamletLayersRef.current[selectedHamletId]) {
+        const activeLayer = hamletLayersRef.current[selectedHamletId];
         try {
-          const bounds = layer.getBounds?.();
+          const bounds = activeLayer.getBounds?.();
           if (bounds?.isValid()) {
             mapRef.current.fitBounds(bounds, {
-              padding: [40, 40],
+              padding: [50, 50],
               maxZoom: 16,
               animate: true,
             });
           }
-        } catch { /* ignore */ }
+        } catch (e) {
+          console.warn("Could not zoom to hamlet:", e);
+        }
+      } else if (allBoundsRef.current) {
+        mapRef.current.fitBounds(allBoundsRef.current, { padding: [25, 25], animate: true });
       }
-    });
+    }
   }, [selectedHamletId]);
 
   /* ── Load & render polygons ──────────────────────────────── */
@@ -479,13 +489,20 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
       },
     }).addTo(map);
 
+    if (matchedLayers.length) {
+      const group = L.featureGroup(matchedLayers);
+      if (group.getBounds().isValid()) {
+        allBoundsRef.current = group.getBounds();
+      }
+    }
+
     if (selectedIdRef.current && hamletLayersRef.current[selectedIdRef.current]) {
       const activeLayer = hamletLayersRef.current[selectedIdRef.current];
       try {
         const bounds = activeLayer.getBounds?.();
         if (bounds?.isValid()) {
           map.fitBounds(bounds, {
-            padding: [40, 40],
+            padding: [50, 50],
             maxZoom: 16,
             animate: false,
           });
@@ -493,11 +510,8 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
       } catch (e) {
         console.warn("Could not zoom to selected hamlet:", e);
       }
-    } else if (matchedLayers.length) {
-      const group = L.featureGroup(matchedLayers);
-      if (group.getBounds().isValid()) {
-        map.fitBounds(group.getBounds(), { padding: [30, 30] });
-      }
+    } else if (allBoundsRef.current) {
+      map.fitBounds(allBoundsRef.current, { padding: [25, 25], animate: false });
     }
 
     setKmlStatus(matchedLayers.length > 0 ? 'loaded' : 'error');
@@ -505,11 +519,19 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
   }
 
   const handleResetView = () => {
+    onHamletSelect(null);
     if (!mapRef.current) return;
-    mapRef.current.flyTo([10.888141, 106.582284], 14.5, {
-      duration: 1.2,
-      easeLinearity: 0.25,
-    });
+    if (allBoundsRef.current) {
+      mapRef.current.fitBounds(allBoundsRef.current, {
+        padding: [25, 25],
+        animate: true,
+      });
+    } else {
+      mapRef.current.flyTo([10.888141, 106.582284], 14.5, {
+        duration: 1.2,
+        easeLinearity: 0.25,
+      });
+    }
   };
 
   const handleToggleFullscreen = () => {
