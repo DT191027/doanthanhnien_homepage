@@ -88,32 +88,11 @@ const KML_MID = '1btOE2NICgFYjEgOpKGMrvUePujt4ksM';
 const KML_BASE = `https://www.google.com/maps/d/kml?mid=${KML_MID}&forcekml=1`;
 
 async function fetchKMLText() {
-  const proxies = [
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(KML_BASE)}`,
-    `https://corsproxy.io/?${encodeURIComponent(KML_BASE)}`,
-    `https://proxy.cors.sh/${KML_BASE}`,
-  ];
-
-  for (const url of proxies) {
-    try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 4000);
-      const res = await fetch(url, { signal: controller.signal });
-      clearTimeout(timeout);
-
-      if (!res.ok) continue;
-      const text = await res.text();
-
-      // Make sure it looks like KML/XML, not an HTML error page
-      if (text.includes('<kml') || text.includes('<Placemark')) {
-        return text;
-      }
-    } catch {
-      /* try next */
-    }
+  // Trả về ngay lập tức dữ liệu KML chuẩn hóa offline của 30 ấp xã Xuân Thới Sơn (0ms delay)
+  if (fallbackKMLText) {
+    return fallbackKMLText;
   }
-  // Fall back to preloaded offline KML data
-  return fallbackKMLText;
+  return null;
 }
 
 /* ──────────────────────────────────────────────────────────── */
@@ -137,39 +116,54 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
     selectedIdRef.current = selectedHamletId;
   }, [selectedHamletId]);
 
-  // Handle container resizing / visibility switching
+  // Handle container resizing / visibility switching with multi-step invalidation
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
 
     if (activeTab === 'map') {
-      // Force Leaflet to recalculate container size now that display is no longer 'none'
-      const timer = setTimeout(() => {
-        map.invalidateSize({ animate: false });
-        
-        // Focus/Zoom to selected hamlet if present, else expand to full commune bounds
-        if (selectedIdRef.current && hamletLayersRef.current[selectedIdRef.current]) {
-          const activeLayer = hamletLayersRef.current[selectedIdRef.current];
-          try {
-            const bounds = activeLayer.getBounds?.();
-            if (bounds?.isValid()) {
-              map.fitBounds(bounds, {
-                padding: [50, 50],
-                maxZoom: 16,
-                animate: true,
-              });
+      // Gọi invalidateSize nhiều nhịp (30ms, 120ms, 300ms, 600ms) để chống triệt để tình trạng màn hình xám do flex layout chưa tính xong
+      const delays = [30, 120, 300, 600];
+      const timers = delays.map((delay) =>
+        setTimeout(() => {
+          if (mapRef.current) {
+            mapRef.current.invalidateSize({ animate: false });
+            if (selectedIdRef.current && hamletLayersRef.current[selectedIdRef.current]) {
+              const activeLayer = hamletLayersRef.current[selectedIdRef.current];
+              try {
+                const bounds = activeLayer.getBounds?.();
+                if (bounds?.isValid()) {
+                  mapRef.current.fitBounds(bounds, {
+                    padding: [50, 50],
+                    maxZoom: 16,
+                    animate: false,
+                  });
+                }
+              } catch (e) {
+                // ignore
+              }
+            } else if (allBoundsRef.current) {
+              mapRef.current.fitBounds(allBoundsRef.current, { padding: [25, 25], animate: false });
             }
-          } catch (e) {
-            console.warn("Could not focus bounds on visibility change:", e);
           }
-        } else if (allBoundsRef.current) {
-          map.fitBounds(allBoundsRef.current, { padding: [25, 25], animate: true });
-        }
-      }, 50); // slight timeout to allow CSS layout to settle
+        }, delay)
+      );
 
-      return () => clearTimeout(timer);
+      return () => timers.forEach(clearTimeout);
     }
   }, [activeTab]);
+
+  // ResizeObserver tự động cập nhật khi kích thước cửa sổ hoặc khung bản đồ thay đổi
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const ro = new ResizeObserver(() => {
+      if (mapRef.current) {
+        mapRef.current.invalidateSize({ animate: false });
+      }
+    });
+    ro.observe(containerRef.current);
+    return () => ro.disconnect();
+  }, []);
 
   // Handle map mode switching (Streets vs Satellite vs CARTO)
   useEffect(() => {
@@ -222,32 +216,31 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
       zoomControl: false,
     });
 
-    // Google Maps Standard Street Layer - Ultra detailed, zero 403 blocks
+    // 1. CARTO Voyager Layer (Chuẩn Bản đồ đường sá, sắc nét, tiếng Việt, 0 lỗi 403)
     const streetsLayer = L.tileLayer(
-      'https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
-      {
-        attribution: '&copy; Google Maps',
-        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-        maxZoom: 20,
-      }
-    );
-
-    // Google Maps Satellite Hybrid Layer
-    const satelliteLayer = L.tileLayer(
-      'https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
-      {
-        attribution: '&copy; Google Maps',
-        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-        maxZoom: 20,
-      }
-    );
-
-    // CARTO Voyager Tile Layer (Sáng & Hiện đại)
-    const cartoLayer = L.tileLayer(
       'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
       {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
-        subdomains: ['a', 'b', 'c', 'd'],
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20,
+      }
+    );
+
+    // 2. Esri World Imagery (Ảnh vệ tinh chân thực độ nét cao, ổn định 100%, không bị chặn)
+    const satelliteLayer = L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      {
+        attribution: '&copy; Esri &copy; Maxar, Earthstar Geographics',
+        maxZoom: 19,
+      }
+    );
+
+    // 3. CARTO Positron Layer (Bản đồ sáng phong cách hành chính hiện đại)
+    const cartoLayer = L.tileLayer(
+      'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+      {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        subdomains: 'abcd',
         maxZoom: 20,
       }
     );
@@ -515,6 +508,10 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
     }
 
     setKmlStatus(matchedLayers.length > 0 ? 'loaded' : 'error');
+    if (map && allBoundsRef.current && !selectedIdRef.current) {
+      map.fitBounds(allBoundsRef.current, { padding: [25, 25], animate: false });
+      map.invalidateSize({ animate: false });
+    }
     if (onMapLoaded) onMapLoaded();
   }
 
