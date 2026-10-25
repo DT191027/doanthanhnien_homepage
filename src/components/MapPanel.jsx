@@ -104,12 +104,12 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
   const allBoundsRef = useRef(null); // Full bounds of all 30 hamlets
   const selectedIdRef = useRef(selectedHamletId);
   const [kmlStatus, setKmlStatus] = useState('loading');
-  const [mapMode, setMapMode] = useState('streets'); // 'streets' | 'satellite' | 'carto'
+  const [mapMode, setMapMode] = useState('streets'); // 'streets' | 'satellite' | 'topo'
   const [showLegend, setShowLegend] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const streetsLayerRef = useRef(null);
   const satelliteLayerRef = useRef(null);
-  const cartoLayerRef = useRef(null);
+  const topoLayerRef = useRef(null);
 
   // Keep ref current for stale-closure safety in event handlers
   useEffect(() => {
@@ -165,13 +165,13 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
     return () => ro.disconnect();
   }, []);
 
-  // Handle map mode switching (Streets vs Satellite vs CARTO)
+  // Handle map mode switching (Streets vs Satellite vs Topo)
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
 
     // Remove all base layers first
-    [streetsLayerRef.current, satelliteLayerRef.current, cartoLayerRef.current].forEach((layer) => {
+    [streetsLayerRef.current, satelliteLayerRef.current, topoLayerRef.current].forEach((layer) => {
       if (layer && map.hasLayer(layer)) {
         map.removeLayer(layer);
       }
@@ -180,8 +180,8 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
     // Add selected base layer
     if (mapMode === 'satellite' && satelliteLayerRef.current) {
       satelliteLayerRef.current.addTo(map);
-    } else if (mapMode === 'carto' && cartoLayerRef.current) {
-      cartoLayerRef.current.addTo(map);
+    } else if (mapMode === 'topo' && topoLayerRef.current) {
+      topoLayerRef.current.addTo(map);
     } else if (streetsLayerRef.current) {
       streetsLayerRef.current.addTo(map);
     }
@@ -216,32 +216,32 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
       zoomControl: false,
     });
 
-    // 1. CARTO Voyager Layer (Chuẩn Bản đồ đường sá, sắc nét, tiếng Việt, 0 lỗi 403)
+    // 1. Google Maps Standard Street Layer - Chi tiết đường xá, ngõ hẻm, tiếng Việt 100%, siêu sạch không watermark
     const streetsLayer = L.tileLayer(
-      'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+      'https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
       {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
+        attribution: '&copy; Google Maps',
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
         maxZoom: 20,
       }
     );
 
-    // 2. Esri World Imagery (Ảnh vệ tinh chân thực độ nét cao, ổn định 100%, không bị chặn)
+    // 2. Google Maps Satellite Hybrid - Ảnh vệ tinh độ nét cao kết hợp tên đường & địa danh
     const satelliteLayer = L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      'https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
       {
-        attribution: '&copy; Esri &copy; Maxar, Earthstar Geographics',
-        maxZoom: 19,
+        attribution: '&copy; Google Maps',
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        maxZoom: 20,
       }
     );
 
-    // 3. CARTO Positron Layer (Bản đồ sáng phong cách hành chính hiện đại)
-    const cartoLayer = L.tileLayer(
-      'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    // 3. Esri World Topo Layer - Bản đồ địa hình & ranh giới hành chính thanh lịch, sạch 100% không API key
+    const topoLayer = L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
       {
-        attribution: '&copy; OpenStreetMap &copy; CARTO',
-        subdomains: 'abcd',
-        maxZoom: 20,
+        attribution: '&copy; Esri &copy; OpenStreetMap contributors',
+        maxZoom: 19,
       }
     );
 
@@ -249,7 +249,7 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
 
     streetsLayerRef.current = streetsLayer;
     satelliteLayerRef.current = satelliteLayer;
-    cartoLayerRef.current = cartoLayer;
+    topoLayerRef.current = topoLayer;
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
@@ -582,23 +582,23 @@ export default function MapPanel({ activeTab, selectedHamletId, onHamletSelect, 
           <button 
             className={`toggle-btn ${mapMode === 'streets' ? 'active' : ''}`}
             onClick={() => setMapMode('streets')}
-            title="Bản đồ Google Maps chuẩn (Đường xá, ngõ hẻm)"
+            title="Bản đồ Google Maps chuẩn (Đường sá, ngõ hẻm, tiếng Việt chi tiết)"
           >
             🗺️ Bản đồ
           </button>
           <button 
             className={`toggle-btn ${mapMode === 'satellite' ? 'active' : ''}`}
             onClick={() => setMapMode('satellite')}
-            title="Ảnh vệ tinh Google Maps độ phân giải cao"
+            title="Ảnh vệ tinh Google Maps độ phân giải cao kết hợp tên đường"
           >
             🛰️ Vệ tinh
           </button>
           <button 
-            className={`toggle-btn ${mapMode === 'carto' ? 'active' : ''}`}
-            onClick={() => setMapMode('carto')}
-            title="Bản đồ CARTO Vector phong cách hiện đại"
+            className={`toggle-btn ${mapMode === 'topo' ? 'active' : ''}`}
+            onClick={() => setMapMode('topo')}
+            title="Bản đồ địa hình & ranh giới hành chính Esri (Không watermark)"
           >
-            🎨 CARTO
+            🏛️ Địa hình
           </button>
         </div>
 
