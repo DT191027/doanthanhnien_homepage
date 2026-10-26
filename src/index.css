@@ -4636,28 +4636,41 @@ textarea {
   border-radius: var(--radius-md);
 }
 
+.admin-thumbnail-preview-card {
+  margin-top: 12px;
+  background: #f8fafc;
+  padding: 14px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
 .image-preview-thumbnail {
   margin-top: 10px;
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
   background: #f8fafc;
-  padding: 8px 12px;
+  padding: 12px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
 }
 
-.image-preview-thumbnail img {
-  width: 72px;
-  height: 48px;
-  object-fit: cover;
-  border-radius: var(--radius-sm);
+.btn-edit-post {
+  transition: var(--transition);
 }
 
-.image-preview-thumbnail span {
-  font-size: 12.5px;
-  color: var(--subtext);
-  font-weight: 500;
+.btn-edit-post:hover {
+  background: #dbeafe !important;
+  color: #0056b3 !important;
+}
+
+.btn-edit-post-sm {
+  transition: var(--transition);
+}
+
+.btn-edit-post-sm:hover {
+  background: #dbeafe !important;
+  color: #0056b3 !important;
 }
 
 .admin-user-bar {

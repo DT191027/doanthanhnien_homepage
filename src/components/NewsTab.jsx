@@ -9,12 +9,14 @@ import {
   ExternalLink, 
   PlusCircle, 
   Trash2, 
+  Edit3,
   FolderArchive,
   X,
-  Newspaper
+  Newspaper,
+  RotateCcw
 } from 'lucide-react';
 
-const DEFAULT_FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200&q=80';
+const DEFAULT_FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=80';
 const handleImgError = (e) => {
   e.target.onerror = null;
   e.target.src = DEFAULT_FALLBACK_IMAGE;
@@ -27,15 +29,16 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeArticleModal, setActiveArticleModal] = useState(null);
 
-  // Sync news posts with Supabase and local cache
+  // Sync news posts with local cache & Supabase
+  const loadPosts = async () => {
+    setLoading(true);
+    const data = await newsService.getPosts();
+    setPosts(data);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    async function loadData() {
-      setLoading(true);
-      const data = await newsService.getPosts();
-      setPosts(data);
-      setLoading(false);
-    }
-    loadData();
+    loadPosts();
 
     // Listen for custom post update events
     const handleNewsUpdate = async () => {
@@ -48,18 +51,37 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
 
   const handleDeletePost = async (id, e) => {
     e.stopPropagation();
-    if (window.confirm('Bạn có chắc chắn muốn xóa bài viết này?')) {
+    if (window.confirm('Bạn có chắc chắn muốn xóa bài viết này không?')) {
       const updated = await newsService.deletePost(id);
       setPosts(updated);
     }
   };
 
-  const categories = ['Tất cả', 'Hoạt động Tình nguyện', 'Giáo dục Truyền thống', 'Chuyển đổi số', 'Tuyên dương Khen thưởng', 'Công trình Thanh niên'];
+  const handleEditPost = (post, e) => {
+    e.stopPropagation();
+    onOpenAdminModal(post);
+  };
+
+  const handleResetDefaults = () => {
+    if (window.confirm('Khôi phục danh sách bài viết mẫu tiêu chuẩn của Đoàn Xã Xuân Thới Sơn?')) {
+      const defaults = newsService.resetToDefaults();
+      setPosts(defaults);
+    }
+  };
+
+  const categories = [
+    'Tất cả', 
+    'Hoạt động Tình nguyện', 
+    'Công trình Thanh niên', 
+    'Chuyển đổi số', 
+    'Giáo dục Truyền thống', 
+    'Tuyên dương Khen thưởng'
+  ];
 
   const filteredPosts = posts.filter(post => {
     const matchCat = selectedCategory === 'Tất cả' || post.category === selectedCategory;
-    const matchSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                        post.abstract.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchSearch = post.title?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                        post.abstract?.toLowerCase().includes(searchTerm.toLowerCase());
     return matchCat && matchSearch;
   });
 
@@ -75,8 +97,8 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
           <p className="page-sub-title">Cập nhật chính xác các hoạt động, phong trào thi đua và thông tin chỉ đạo mới nhất từ Facebook Đoàn Xã</p>
         </div>
 
-        <div className="news-admin-action">
-          <button className="btn-admin-post" onClick={onOpenAdminModal}>
+        <div className="news-admin-action" style={{ display: 'flex', gap: '8px' }}>
+          <button className="btn-admin-post flex-center-gap" onClick={() => onOpenAdminModal(null)}>
             <PlusCircle size={18} />
             {isAdminLoggedIn ? 'Đăng Bài Viết Mới (Admin)' : 'Đăng Nhập Quản Trị Bài Viết'}
           </button>
@@ -106,7 +128,7 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           {searchTerm && (
-            <button className="btn-clear-search" onClick={() => setSearchTerm('')}>
+            <button className="btn-clear-search" onClick={() => setSearchTerm('')} title="Xóa tìm kiếm">
               <X size={14} />
             </button>
           )}
@@ -121,12 +143,22 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
           </div>
           <h3>Chưa có bài viết tin tức nào</h3>
           <p>
-            Cán bộ Đoàn xã vui lòng bấm nút bên dưới để đăng nhập tài khoản Admin và tải bài viết trực tiếp từ Facebook!
+            Không tìm thấy bài viết phù hợp với tìm kiếm hoặc bộ lọc hiện tại. Cán bộ Đoàn xã có thể đăng bài viết mới hoặc khôi phục danh sách bài mẫu.
           </p>
-          <button className="btn-admin-post" onClick={onOpenAdminModal}>
-            <PlusCircle size={18} />
-            {isAdminLoggedIn ? 'Đăng Bài Viết Mới (Admin)' : 'Đăng Nhập Quản Trị Bài Viết'}
-          </button>
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <button className="btn-admin-post" onClick={() => onOpenAdminModal(null)}>
+              <PlusCircle size={18} />
+              {isAdminLoggedIn ? 'Đăng Bài Viết Mới' : 'Đăng Nhập Quản Trị'}
+            </button>
+            <button 
+              className="btn-hero-secondary flex-center-gap" 
+              onClick={handleResetDefaults}
+              style={{ padding: '10px 16px', borderRadius: '8px', border: '1px solid #008DD5', color: '#008DD5', cursor: 'pointer', fontWeight: 600 }}
+            >
+              <RotateCcw size={16} />
+              Nạp Lại Bài Mẫu Đoàn Xã
+            </button>
+          </div>
         </div>
       )}
 
@@ -134,7 +166,12 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
       {featuredPost && (
         <section className="featured-news-card" onClick={() => setActiveArticleModal(featuredPost)}>
           <div className="featured-img-container">
-            <img src={featuredPost.imageUrl || DEFAULT_FALLBACK_IMAGE} alt={featuredPost.title} referrerPolicy="no-referrer" onError={handleImgError} />
+            <img 
+              src={featuredPost.imageUrl || DEFAULT_FALLBACK_IMAGE} 
+              alt={featuredPost.title} 
+              referrerPolicy="no-referrer" 
+              onError={handleImgError} 
+            />
             <span className="featured-badge">{featuredPost.category}</span>
           </div>
           <div className="featured-content">
@@ -166,13 +203,32 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
                 </a>
               )}
               {isAdminLoggedIn && (
-                <button 
-                  className="btn-delete-post flex-center-gap"
-                  onClick={(e) => handleDeletePost(featuredPost.id, e)}
-                >
-                  <Trash2 size={13} />
-                  Xóa Bài
-                </button>
+                <div style={{ display: 'flex', gap: '6px', marginLeft: 'auto' }}>
+                  <button 
+                    className="btn-edit-post flex-center-gap"
+                    onClick={(e) => handleEditPost(featuredPost, e)}
+                    style={{
+                      backgroundColor: '#EFF6FF',
+                      color: '#008DD5',
+                      border: '1px solid #BFDBFE',
+                      padding: '6px 12px',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <Edit3 size={13} />
+                    Sửa Bài
+                  </button>
+                  <button 
+                    className="btn-delete-post flex-center-gap"
+                    onClick={(e) => handleDeletePost(featuredPost.id, e)}
+                  >
+                    <Trash2 size={13} />
+                    Xóa Bài
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -184,8 +240,14 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
         <section className="regular-news-grid">
           {regularPosts.map(post => (
             <article key={post.id} className="news-card-item" onClick={() => setActiveArticleModal(post)}>
-              <div className="card-img-wrapper">
-                <img src={post.imageUrl || DEFAULT_FALLBACK_IMAGE} alt={post.title} referrerPolicy="no-referrer" onError={handleImgError} />
+              <div className="card-img-wrapper" style={{ aspectRatio: '16 / 9', height: '180px', overflow: 'hidden' }}>
+                <img 
+                  src={post.imageUrl || DEFAULT_FALLBACK_IMAGE} 
+                  alt={post.title} 
+                  referrerPolicy="no-referrer" 
+                  onError={handleImgError} 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
                 <span className="card-cat-tag">{post.category}</span>
               </div>
               <div className="card-body">
@@ -201,12 +263,36 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
                     Xem tiếp <ArrowRight size={14} />
                   </span>
                   {isAdminLoggedIn && (
-                    <button 
-                      className="btn-delete-post-sm"
-                      onClick={(e) => handleDeletePost(post.id, e)}
-                    >
-                      Xóa
-                    </button>
+                    <div style={{ display: 'flex', gap: '6px', marginLeft: 'auto' }}>
+                      <button 
+                        type="button"
+                        className="btn-edit-post-sm"
+                        onClick={(e) => handleEditPost(post, e)}
+                        style={{
+                          backgroundColor: '#EFF6FF',
+                          color: '#008DD5',
+                          border: '1px solid #BFDBFE',
+                          padding: '4px 8px',
+                          borderRadius: '4px',
+                          fontSize: '11px',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '3px'
+                        }}
+                      >
+                        <Edit3 size={11} />
+                        Sửa
+                      </button>
+                      <button 
+                        type="button"
+                        className="btn-delete-post-sm"
+                        onClick={(e) => handleDeletePost(post.id, e)}
+                      >
+                        Xóa
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
@@ -215,7 +301,7 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
         </section>
       )}
 
-      {/* ARCHIVED BOXES LAYOUT (Chỉ hiển thị khi có dữ liệu chính thức) */}
+      {/* ARCHIVED BOXES LAYOUT */}
       <section className="archived-boxes-section">
         <h2 className="archive-section-heading">
           <FolderArchive size={24} />
@@ -270,13 +356,18 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
         )}
       </section>
 
-      {/* Article Detail View Modal */}
+      {/* Modal xem chi tiết bài viết */}
       {activeArticleModal && (
         <div className="article-modal-backdrop" onClick={() => setActiveArticleModal(null)}>
           <div className="article-modal-card" onClick={(e) => e.stopPropagation()}>
             <button className="btn-close-modal" onClick={() => setActiveArticleModal(null)}>&times;</button>
             <div className="article-modal-hero">
-              <img src={activeArticleModal.imageUrl || DEFAULT_FALLBACK_IMAGE} alt={activeArticleModal.title} referrerPolicy="no-referrer" onError={handleImgError} />
+              <img 
+                src={activeArticleModal.imageUrl || DEFAULT_FALLBACK_IMAGE} 
+                alt={activeArticleModal.title} 
+                referrerPolicy="no-referrer" 
+                onError={handleImgError} 
+              />
               <span className="modal-cat-tag">{activeArticleModal.category}</span>
             </div>
             <div className="article-modal-body">

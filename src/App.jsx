@@ -24,6 +24,7 @@ export default function App() {
     return localStorage.getItem('xts_admin_session') === 'true';
   });
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
+  const [editingPost, setEditingPost] = useState(null);
 
   const handleAdminLogin = () => {
     setIsAdminLoggedIn(true);
@@ -35,9 +36,22 @@ export default function App() {
     localStorage.removeItem('xts_admin_session');
   };
 
-  const handleSavePost = async (newPost) => {
-    await newsService.createPost(newPost);
-    window.dispatchEvent(new Event('xts_news_updated'));
+  const handleOpenAdminModal = (post = null) => {
+    setEditingPost(post);
+    setIsAdminModalOpen(true);
+  };
+
+  const handleCloseAdminModal = () => {
+    setIsAdminModalOpen(false);
+    setEditingPost(null);
+  };
+
+  const handleSavePost = async (postPayload) => {
+    if (postPayload.isEditing) {
+      await newsService.updatePost(postPayload);
+    } else {
+      await newsService.createPost(postPayload);
+    }
   };
 
   return (
@@ -48,11 +62,12 @@ export default function App() {
       {/* Admin News Management Modal */}
       <AdminNewsModal
         isOpen={isAdminModalOpen}
-        onClose={() => setIsAdminModalOpen(false)}
+        onClose={handleCloseAdminModal}
         isAdminLoggedIn={isAdminLoggedIn}
         onLogin={handleAdminLogin}
         onLogout={handleAdminLogout}
         onSavePost={handleSavePost}
+        editingPost={editingPost}
       />
 
       <div className="app-layout">
@@ -60,7 +75,7 @@ export default function App() {
         <Header 
           activeTab={activeTab} 
           onTabChange={setActiveTab} 
-          onOpenAdminModal={() => setIsAdminModalOpen(true)}
+          onOpenAdminModal={() => handleOpenAdminModal(null)}
           isAdminLoggedIn={isAdminLoggedIn}
         />
         
@@ -80,7 +95,7 @@ export default function App() {
           {activeTab === 'news' && (
             <div className="scrollable-page-wrapper">
               <NewsTab 
-                onOpenAdminModal={() => setIsAdminModalOpen(true)} 
+                onOpenAdminModal={handleOpenAdminModal} 
                 isAdminLoggedIn={isAdminLoggedIn}
               />
               <Footer onTabChange={setActiveTab} />
@@ -92,7 +107,7 @@ export default function App() {
             <div className="scrollable-page-wrapper">
               <CommendationTab 
                 isAdminLoggedIn={isAdminLoggedIn}
-                onOpenAdminModal={() => setIsAdminModalOpen(true)}
+                onOpenAdminModal={() => handleOpenAdminModal(null)}
               />
               <Footer onTabChange={setActiveTab} />
             </div>
