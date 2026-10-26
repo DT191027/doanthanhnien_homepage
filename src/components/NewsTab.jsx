@@ -12,8 +12,7 @@ import {
   Edit3,
   FolderArchive,
   X,
-  Newspaper,
-  RotateCcw
+  Newspaper
 } from 'lucide-react';
 
 const DEFAULT_FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=80';
@@ -60,13 +59,6 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
   const handleEditPost = (post, e) => {
     e.stopPropagation();
     onOpenAdminModal(post);
-  };
-
-  const handleResetDefaults = () => {
-    if (window.confirm('Khôi phục danh sách bài viết mẫu tiêu chuẩn của Đoàn Xã Xuân Thới Sơn?')) {
-      const defaults = newsService.resetToDefaults();
-      setPosts(defaults);
-    }
   };
 
   const categories = [
@@ -143,22 +135,12 @@ export default function NewsTab({ onOpenAdminModal, isAdminLoggedIn }) {
           </div>
           <h3>Chưa có bài viết tin tức nào</h3>
           <p>
-            Không tìm thấy bài viết phù hợp với tìm kiếm hoặc bộ lọc hiện tại. Cán bộ Đoàn xã có thể đăng bài viết mới hoặc khôi phục danh sách bài mẫu.
+            Cán bộ Đoàn xã vui lòng bấm nút bên dưới để đăng bài viết mới hoặc dán link bài viết trực tiếp từ Facebook!
           </p>
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <button className="btn-admin-post" onClick={() => onOpenAdminModal(null)}>
-              <PlusCircle size={18} />
-              {isAdminLoggedIn ? 'Đăng Bài Viết Mới' : 'Đăng Nhập Quản Trị'}
-            </button>
-            <button 
-              className="btn-hero-secondary flex-center-gap" 
-              onClick={handleResetDefaults}
-              style={{ padding: '10px 16px', borderRadius: '8px', border: '1px solid #008DD5', color: '#008DD5', cursor: 'pointer', fontWeight: 600 }}
-            >
-              <RotateCcw size={16} />
-              Nạp Lại Bài Mẫu Đoàn Xã
-            </button>
-          </div>
+          <button className="btn-admin-post" onClick={() => onOpenAdminModal(null)}>
+            <PlusCircle size={18} />
+            {isAdminLoggedIn ? 'Đăng Bài Viết Mới (Admin)' : 'Đăng Nhập Quản Trị'}
+          </button>
         </div>
       )}
 

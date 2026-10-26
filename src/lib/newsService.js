@@ -1,39 +1,53 @@
 import { supabase } from './supabaseClient';
-import { INITIAL_NEWS } from '../data/newsData';
 
-const STORAGE_KEY = 'xts_news_posts_v2';
+const STORAGE_KEY = 'xts_news_posts_v3';
+const MOCK_IDS = new Set([
+  'news-hanh-trinh-anh-hung',
+  'news-chu-nhat-xanh-155',
+  'news-chuyen-doi-so-30-ap',
+  'news-tuyen-duong-thanh-nien-2026',
+  'news-ve-nguon-nga-ba-giong'
+]);
 
-// Helper: Lấy bài viết từ localStorage
+// Helper: Lấy bài viết từ localStorage (loại bỏ hoàn toàn các id bài viết mẫu)
 function getLocalPosts() {
   try {
+    // Dọn dẹp cache cũ nếu có bài ảo
+    localStorage.removeItem('xts_news_posts_v2');
+    localStorage.removeItem('xts_news_posts_storage');
+
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_NEWS));
-      return [...INITIAL_NEWS];
+      return [];
     }
     const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed) && parsed.length > 0) {
-      return parsed;
+    if (Array.isArray(parsed)) {
+      // Lọc bỏ sạch mọi bài mẫu ảo
+      const cleanPosts = parsed.filter(p => !MOCK_IDS.has(p.id));
+      if (cleanPosts.length !== parsed.length) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cleanPosts));
+      }
+      return cleanPosts;
     }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_NEWS));
-    return [...INITIAL_NEWS];
+    return [];
   } catch (e) {
     console.warn('Lỗi đọc localStorage bài viết:', e);
-    return [...INITIAL_NEWS];
+    return [];
   }
 }
 
 // Helper: Lưu bài viết vào localStorage
 function saveLocalPosts(posts) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+    const cleanPosts = posts.filter(p => !MOCK_IDS.has(p.id));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cleanPosts));
   } catch (e) {
     console.error('Lỗi lưu localStorage bài viết:', e);
   }
 }
 
 export const newsService = {
-  // Lấy danh sách bài viết (ưu tiên LocalStorage tức thì, đồng bộ Supabase nếu kết nối được)
+  // Lấy danh sách bài viết thực tế
   async getPosts() {
     const localPosts = getLocalPosts();
 
@@ -48,21 +62,22 @@ export const newsService = {
       ]);
 
       if (!error && Array.isArray(data) && data.length > 0) {
-        const remotePosts = data.map(item => ({
-          id: item.id,
-          title: item.title,
-          abstract: item.abstract,
-          date: item.date,
-          category: item.category,
-          author: item.author || 'Đoàn Xã Xuân Thới Sơn',
-          fbLink: item.fb_link || item.fbLink || '',
-          imageUrl: item.image_url || item.imageUrl || '',
-          views: item.views || 1,
-          isFeatured: Boolean(item.is_featured),
-          content: item.content || item.abstract
-        }));
+        const remotePosts = data
+          .filter(item => !MOCK_IDS.has(item.id))
+          .map(item => ({
+            id: item.id,
+            title: item.title,
+            abstract: item.abstract,
+            date: item.date,
+            category: item.category,
+            author: item.author || 'Đoàn Xã Xuân Thới Sơn',
+            fbLink: item.fb_link || item.fbLink || '',
+            imageUrl: item.image_url || item.imageUrl || '',
+            views: item.views || 1,
+            isFeatured: Boolean(item.is_featured),
+            content: item.content || item.abstract
+          }));
 
-        // Hợp nhất (Merge) không trùng lặp
         const localIdMap = new Set(remotePosts.map(p => p.id));
         const merged = [
           ...remotePosts,
@@ -73,8 +88,7 @@ export const newsService = {
         return merged;
       }
     } catch (e) {
-      // Supabase offline hoặc timeout -> dùng hoàn toàn localPosts an toàn 100%
-      console.info('Supabase không phản hồi, tải bài viết từ bộ nhớ cục bộ an toàn.');
+      // Supabase offline -> dùng localPosts an toàn
     }
 
     return localPosts;
@@ -91,17 +105,16 @@ export const newsService = {
       category: post.category || 'Hoạt động Tình nguyện',
       author: post.author || 'Đoàn Xã Xuân Thới Sơn',
       fbLink: post.fbLink?.trim() || 'https://www.facebook.com/DTNxaTTN?locale=vi_VN',
-      imageUrl: post.imageUrl?.trim() || 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=80',
+      imageUrl: post.imageUrl?.trim() || '',
       views: post.views || 1,
       isFeatured: Boolean(post.isFeatured),
       content: post.content?.trim() || post.abstract.trim()
     };
 
-    // 1. Lưu ngay lập tức vào LocalStorage để đảm bảo hiển thị tức thì 0ms
     const updated = [newPost, ...localPosts.filter(p => p.id !== newPost.id)];
     saveLocalPosts(updated);
 
-    // 2. Thử đẩy lên Supabase ngầm (nếu cấu hình)
+    // Đồng bộ Supabase nếu có thể
     try {
       supabase.from('news_posts').insert([
         {
@@ -122,13 +135,12 @@ export const newsService = {
       console.warn('Supabase cloud sync notice (create):', err);
     }
 
-    // 3. Phát sự kiện cập nhật
     window.dispatchEvent(new CustomEvent('xts_news_updated', { detail: { action: 'create', post: newPost } }));
 
     return { success: true, post: newPost, posts: updated };
   },
 
-  // Cập nhật / Chỉnh sửa bài viết
+  // Cập nhật bài viết
   async updatePost(updatedPost) {
     const localPosts = getLocalPosts();
     const postIndex = localPosts.findIndex(p => p.id === updatedPost.id);
@@ -148,7 +160,6 @@ export const newsService = {
 
     saveLocalPosts(updatedList);
 
-    // Thử cập nhật lên Supabase
     try {
       supabase.from('news_posts').update({
         title: mergedPost.title,
@@ -188,10 +199,10 @@ export const newsService = {
     return updated;
   },
 
-  // Khôi phục bài viết mẫu
-  resetToDefaults() {
-    saveLocalPosts(INITIAL_NEWS);
-    window.dispatchEvent(new CustomEvent('xts_news_updated', { detail: { action: 'reset' } }));
-    return [...INITIAL_NEWS];
+  // Xóa toàn bộ bài viết
+  clearAllPosts() {
+    saveLocalPosts([]);
+    window.dispatchEvent(new CustomEvent('xts_news_updated', { detail: { action: 'clear' } }));
+    return [];
   }
 };
