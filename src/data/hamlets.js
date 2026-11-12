@@ -1,6 +1,8 @@
 // Dữ liệu 30 ấp Xã Xuân Thới Sơn sau sáp nhập
 // Cập nhật chính xác từ phụ lục Nghị quyết số 19/NQ-HĐND ngày 22 tháng 6 năm 2026
-export const hamlets = [
+import { MAP_LOCATIONS, LOCATION_CATEGORIES, getLocationsForHamlet } from './mapLocationsData';
+
+const baseHamlets = [
   {
     id: 1,
     ten: "Mỹ Hòa 2",
@@ -619,6 +621,22 @@ export const hamlets = [
   }
 ];
 
+export const hamlets = baseHamlets.map((h) => {
+  const locs = getLocationsForHamlet(h.id);
+  return {
+    ...h,
+    diaDiem: locs,
+    bndAp: locs.filter((l) => l.category === 'bnd_ap'),
+    mamNon: locs.filter((l) => l.category === 'mam_non'),
+    truongHoc: locs.filter((l) => l.category === 'truong_hoc'),
+    tthtcd: locs.filter((l) => l.category === 'tthtcd'),
+    diaChiDo: locs.filter((l) => l.category === 'di_tich'),
+  };
+});
+
+export const allMapLocations = MAP_LOCATIONS;
+export { LOCATION_CATEGORIES };
+
 export const tongQuan = {
   tongAp: 30,
   tongDienTich: parseFloat(hamlets.reduce((sum, h) => sum + (h.dienTich || 0), 0).toFixed(1)),
@@ -629,8 +647,10 @@ export const tongQuan = {
   huyen: "",
   thanhPho: "TP. Hồ Chí Minh",
   namSapNhap: 2026,
-  tongDiaChiDo: 5,
+  tongDiaChiDo: MAP_LOCATIONS.filter((l) => l.category === 'di_tich').length,
+  tongDiaDiem: MAP_LOCATIONS.length,
 };
 
-export const allDiaChiDo = hamlets.flatMap(h => (h.diaChiDo || []).map(d => ({ ...d, apTen: h.ten, apId: h.id })));
+export const allDiaChiDo = MAP_LOCATIONS.filter((l) => l.category === 'di_tich');
+
 

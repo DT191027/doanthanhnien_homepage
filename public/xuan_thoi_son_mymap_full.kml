@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Các địa điểm Xã Xuân Thới Sơn (30 Ấp)</name>
+    <description>Tổng hợp BND các ấp/liên ấp, Trường Mầm non, Trường học (TH-THCS-THPT), Trung tâm học tập cộng đồng, Trụ sở hỗ trợ và Di tích lịch sử Xã Xuân Thới Sơn</description>
+    <Style id="icon-1548-0F9D58">
+      <IconStyle>
+        <color>ff589d0f</color>
+        <scale>1</scale>
+        <Icon><href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="icon-1682-0288D1">
+      <IconStyle>
+        <color>ffd18802</color>
+        <scale>1</scale>
+        <Icon><href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="icon-1726-0288D1">
+      <IconStyle>
+        <color>ffd18802</color>
+        <scale>1</scale>
+        <Icon><href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="icon-1706-0288D1">
+      <IconStyle>
+        <color>ffd18802</color>
+        <scale>1</scale>
+        <Icon><href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="icon-1598-E65100">
+      <IconStyle>
+        <color>ff0051e6</color>
+        <scale>1</scale>
+        <Icon><href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="icon-1624-DB4436">
+      <IconStyle>
+        <color>ff3644db</color>
+        <scale>1</scale>
+        <Icon><href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="icon-1596-0F9D58">
+      <IconStyle>
+        <color>ff589d0f</color>
+        <scale>1</scale>
+        <Icon><href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="icon-1546-0288D1">
+      <IconStyle>
+        <color>ffd18802</color>
+        <scale>1</scale>
+        <Icon><href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Folder>
+      <name>BND các ấp</name>
+      <Placemark>
+        <name>BND ấp MH5, XTĐ, XTĐ1</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới Đông, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Ban nhân dân liên ấp<br/>Địa chỉ: Đường Trần Văn Mười, Ấp Xuân Thới Đông, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trụ sở làm việc, hội họp và tiếp công dân của Ban nhân dân liên ấp Mỹ Hòa 5, Xuân Thới Đông và Xuân Thới Đông 1.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8656352,106.5892258]]></description>
+        <styleUrl>#icon-1548-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.5892258,10.8656352,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>BND ấp MH3, MH4</name>
+        <description><![CDATA[Thuộc: Ấp Mỹ Hòa 3, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Ban nhân dân liên ấp<br/>Địa chỉ: Ấp Mỹ Hòa 3, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trụ sở sinh hoạt cộng đồng và tiếp nhận thông tin hành chính liên ấp Mỹ Hòa 3 - Mỹ Hòa 4.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.862615,106.6003339]]></description>
+        <styleUrl>#icon-1548-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.6003339,10.862615,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>BND ấp NT2, NT3</name>
+        <description><![CDATA[Thuộc: Ấp Nhị Tân 3, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Ban nhân dân liên ấp<br/>Địa chỉ: Đường Tân Thới Nhì 1, Ấp Nhị Tân 3, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Văn phòng Ban nhân dân liên ấp Nhị Tân 2 và Nhị Tân 3, điểm sinh hoạt chi đoàn và tổ nhân dân.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8882238,106.5732056]]></description>
+        <styleUrl>#icon-1548-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.5732056,10.8882238,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>BND ấp MH2</name>
+        <description><![CDATA[Thuộc: Ấp Mỹ Hòa 2, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Ban nhân dân ấp<br/>Địa chỉ: Ấp Mỹ Hòa 2, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trụ sở Ban nhân dân ấp Mỹ Hòa 2 (sáp nhập từ Ấp 50, Ấp 51).<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8581491,106.6039407]]></description>
+        <styleUrl>#icon-1548-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.6039407,10.8581491,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>BND ấp Tân Tiến, Bùi Môn</name>
+        <description><![CDATA[Thuộc: Ấp Tân Tiến, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Ban nhân dân liên ấp<br/>Địa chỉ: Khu vực Quốc lộ 22 / Lê Thị Hà, Ấp Tân Tiến, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Điểm sinh hoạt văn hóa và trụ sở Ban nhân dân liên ấp Tân Tiến - Bùi Môn.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.86585,106.59525]]></description>
+        <styleUrl>#icon-1548-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.59525,10.86585,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>BND ấp XTĐ2, XTĐ5</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới Đông 2, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Ban nhân dân liên ấp<br/>Địa chỉ: Ấp Xuân Thới Đông 2, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Văn phòng Ban nhân dân liên ấp Xuân Thới Đông 2 và Xuân Thới Đông 5.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.86985,106.59225]]></description>
+        <styleUrl>#icon-1548-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.59225,10.86985,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>BND ấp XTĐ3, XTĐ4</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới Đông 3, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Ban nhân dân liên ấp<br/>Địa chỉ: Đường Trần Văn Mười, Ấp Xuân Thới Đông 3, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trụ sở Ban nhân dân liên ấp Xuân Thới Đông 3 và Xuân Thới Đông 4.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.86945,106.58815]]></description>
+        <styleUrl>#icon-1548-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.58815,10.86945,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>BND cụm ấp Nam Xuân</name>
+        <description><![CDATA[Thuộc: Ấp Nam Xuân, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Ban nhân dân liên ấp<br/>Địa chỉ: Đường Dương Công Khi / Nguyễn Văn Bứa, Ấp Nam Xuân, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trụ sở Ban nhân dân cụm ấp Nam Xuân, Nam Xuân 1 và Nam Xuân 2.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.87125,106.58245]]></description>
+        <styleUrl>#icon-1548-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.58245,10.87125,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>BND cụm ấp Xuân Thới</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Ban nhân dân liên ấp<br/>Địa chỉ: Đường Lê Thị Kim, Ấp Xuân Thới, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trụ sở Ban nhân dân cụm ấp Xuân Thới, Xuân Thới 1 và Xuân Thới 2.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.87815,106.58410]]></description>
+        <styleUrl>#icon-1548-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.5841,10.87815,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>BND ấp Thới Sơn</name>
+        <description><![CDATA[Thuộc: Ấp Thới Sơn, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Ban nhân dân ấp<br/>Địa chỉ: Đường Nguyễn Văn Bứa, Ấp Thới Sơn, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Văn phòng Ban nhân dân ấp Thới Sơn và điểm sinh hoạt Chi đoàn Thới Sơn.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.87655,106.56950]]></description>
+        <styleUrl>#icon-1548-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.5695,10.87655,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>BND ấp Dân Thắng</name>
+        <description><![CDATA[Thuộc: Ấp Dân Thắng, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Ban nhân dân ấp<br/>Địa chỉ: Khu vực Quốc lộ 22 / Dương Công Khi, Ấp Dân Thắng, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Văn phòng Ban nhân dân ấp Dân Thắng (sáp nhập từ Ấp 58, 60, 61).<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.88910,106.57940]]></description>
+        <styleUrl>#icon-1548-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.5794,10.8891,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>BND ấp Tân Thới Nhì</name>
+        <description><![CDATA[Thuộc: Ấp Tân Thới Nhì, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Ban nhân dân ấp<br/>Địa chỉ: Đường Nguyễn Thị Nuôi, Ấp Tân Thới Nhì, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Văn phòng Ban nhân dân ấp Tân Thới Nhì (sáp nhập từ Ấp 54, 55, 56, 57).<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.89140,106.58490]]></description>
+        <styleUrl>#icon-1548-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.5849,10.8914,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>BND ấp TN1, TN2</name>
+        <description><![CDATA[Thuộc: Ấp Thống Nhất 2, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Ban nhân dân liên ấp<br/>Địa chỉ: Đường Tân Thới Nhì / Lê Lợi, Ấp Thống Nhất 2, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Văn phòng Ban nhân dân liên ấp Thống Nhất 1 và Thống Nhất 2.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.89515,106.57720]]></description>
+        <styleUrl>#icon-1548-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.5772,10.89515,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>BND ấp NT, NT1, Tân Lập</name>
+        <description><![CDATA[Thuộc: Ấp Nhị Tân 1, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Ban nhân dân liên ấp<br/>Địa chỉ: Đường Đặng Công Bỉnh, Ấp Nhị Tân 1, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Văn phòng Ban nhân dân liên ấp Nhị Tân 1, Nhị Tân và Tân Lập.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.89610,106.57480]]></description>
+        <styleUrl>#icon-1548-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.5748,10.8961,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>BND ấp Nhị Xuân, NX1</name>
+        <description><![CDATA[Thuộc: Ấp Nhị Xuân 1, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Ban nhân dân liên ấp<br/>Địa chỉ: Đường Nguyễn Văn Bứa / Xuân Thới Sơn, Ấp Nhị Xuân 1, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Văn phòng Ban nhân dân liên ấp Nhị Xuân và Nhị Xuân 1.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.87920,106.55530]]></description>
+        <styleUrl>#icon-1548-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.5553,10.8792,0</coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Mầm non</name>
+      <Placemark>
+        <name>Trường Mầm non Cúc Hoạ Mi</name>
+        <description><![CDATA[Thuộc: Ấp Thống Nhất 1, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Mầm non công lập<br/>Địa chỉ: Ấp Thống Nhất 1, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường Mầm non Cúc Hoạ Mi trực thuộc địa bàn Ấp Thống Nhất 1, Xã Xuân Thới Sơn.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8963081,106.5822013]]></description>
+        <styleUrl>#icon-1682-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5822013,10.8963081,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường Mầm Non 19/8</name>
+        <description><![CDATA[Thuộc: Ấp Nam Xuân 1, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Mầm non công lập<br/>Địa chỉ: Đường Nguyễn Thị Thử, Ấp Nam Xuân 1, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường Mầm non 19/8 nằm liền kề cụm trường THPT Phạm Văn Sáng, Ấp Nam Xuân 1.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8595598,106.5801403]]></description>
+        <styleUrl>#icon-1682-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5801403,10.8595598,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường Mầm Non Xuân Thới Đông</name>
+        <description><![CDATA[Thuộc: Ấp Mỹ Hòa 3, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Mầm non công lập<br/>Địa chỉ: Ấp Mỹ Hòa 3, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường Mầm non Xuân Thới Đông phục vụ nuôi dạy trẻ khu vực các ấp Mỹ Hòa và Xuân Thới Đông.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8631839,106.5966233]]></description>
+        <styleUrl>#icon-1682-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5966233,10.8631839,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường Mầm non Hướng Dương</name>
+        <description><![CDATA[Thuộc: Ấp Thống Nhất 2, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Mầm non công lập<br/>Địa chỉ: 90/9 Ấp Thống Nhất 2, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường Mầm non Hướng Dương (Chi đoàn Mầm non Hướng Dương) thuộc địa bàn Ấp Thống Nhất 2.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.89485,106.57695]]></description>
+        <styleUrl>#icon-1682-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.57695,10.89485,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường Mầm non Nhị Xuân</name>
+        <description><![CDATA[Thuộc: Ấp Nhị Xuân 1, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Mầm non công lập<br/>Địa chỉ: Số 7B Nguyễn Văn Bứa, Ấp Nhị Xuân 1, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường Mầm non Nhị Xuân (Chi đoàn Mầm non Nhị Xuân) phục vụ khu vực ấp Nhị Xuân và Nhị Xuân 1.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.87815,106.55620]]></description>
+        <styleUrl>#icon-1682-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5562,10.87815,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường Mẫu giáo Bút Chì Màu</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới Đông 3, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Mầm non / Mẫu giáo<br/>Địa chỉ: 75/7E Ấp Xuân Thới Đông 3, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường Mẫu giáo Bút Chì Màu (Chi đoàn MG Bút Chì Màu) tại Ấp Xuân Thới Đông 3.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.86885,106.58825]]></description>
+        <styleUrl>#icon-1682-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.58825,10.86885,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Lớp Mầm non Độc lập Hoa Lài</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Cơ sở Mầm non<br/>Địa chỉ: Đường Lê Thị Kim, Ấp Xuân Thới, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Cơ sở giáo dục mầm non (Chi đoàn Lớp MNĐL Hoa Lài) trên địa bàn Ấp Xuân Thới.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.87720,106.58380]]></description>
+        <styleUrl>#icon-1682-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5838,10.8772,0</coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Trường học</name>
+      <Placemark>
+        <name>Trường Tiểu Học Trần Văn Mười</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới Đông, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Tiểu học<br/>Địa chỉ: Đường Trần Văn Mười, Ấp Xuân Thới Đông, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường Tiểu học Trần Văn Mười đạt chuẩn quốc gia trên tuyến đường Trần Văn Mười, Ấp Xuân Thới Đông.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8655321,106.589922]]></description>
+        <styleUrl>#icon-1726-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.589922,10.8655321,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường THPT Phạm Văn Sáng</name>
+        <description><![CDATA[Thuộc: Ấp Nam Xuân 1, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Trung học Phổ thông<br/>Địa chỉ: 26/1C Nguyễn Thị Thử, Ấp Nam Xuân 1, Xã Xuân Thới Sơn, TP.HCM 700000<br/>Điện thoại: +84 28 6259 5960<br/>Website: https://thptphamvansang.hcm.edu.vn<br/>Chi tiết: Trường THPT Phạm Văn Sáng - Chi tiết từ Google Maps: 26/1C Nguyễn Thị Thử, Xuân Thới Sơn, TP.HCM.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8594301,106.5791444]]></description>
+        <styleUrl>#icon-1726-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5791444,10.8594301,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường Tiểu học Nhị Tân</name>
+        <description><![CDATA[Thuộc: Ấp Nhị Tân 1, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Tiểu học<br/>Địa chỉ: Đường Tân Thới Nhì 24 / Đặng Công Bỉnh, Ấp Nhị Tân 1, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường Tiểu học Nhị Tân thuộc địa bàn Ấp Nhị Tân 1, Xã Xuân Thới Sơn.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.89625,106.57485]]></description>
+        <styleUrl>#icon-1726-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.57485,10.89625,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường Tiểu học Nhị Xuân</name>
+        <description><![CDATA[Thuộc: Ấp Nhị Xuân, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Tiểu học<br/>Địa chỉ: Số 03 đường Xuân Thới Sơn 10B, Ấp Nhị Xuân, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường Tiểu học Nhị Xuân phục vụ học sinh khu vực Ấp Nhị Xuân và Nhị Xuân 1.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.88680,106.53850]]></description>
+        <styleUrl>#icon-1726-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5385,10.8868,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường Tiểu học Lý Chính Thắng 2</name>
+        <description><![CDATA[Thuộc: Ấp Thống Nhất 2, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Tiểu học<br/>Địa chỉ: 90/9A Ấp Thống Nhất 2, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường Tiểu học Lý Chính Thắng 2 nằm tại trung tâm Ấp Thống Nhất 2.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.89535,106.57640]]></description>
+        <styleUrl>#icon-1726-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5764,10.89535,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường Tiểu học Lê Văn Phiên</name>
+        <description><![CDATA[Thuộc: Ấp Nhị Tân 2, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Tiểu học<br/>Địa chỉ: Số 7A đường Đặng Công Bỉnh, Ấp Nhị Tân 2, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường Tiểu học Lê Văn Phiên trên trục đường Đặng Công Bỉnh, Ấp Nhị Tân 2.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.89210,106.57340]]></description>
+        <styleUrl>#icon-1726-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5734,10.8921,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường Tiểu học Dương Công Khi</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới 2, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Tiểu học<br/>Địa chỉ: Số 50/43 đường Lê Thị Kim, Ấp Xuân Thới 2, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường Tiểu học Dương Công Khi thuộc địa bàn Ấp Xuân Thới 2, Xã Xuân Thới Sơn.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.88150,106.57620]]></description>
+        <styleUrl>#icon-1726-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5762,10.8815,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường THCS Nguyễn Hồng Đào</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới 2, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Trung học Cơ sở<br/>Địa chỉ: Số 228/2D đường Nguyễn Văn Bứa, Ấp Xuân Thới 2, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường THCS Nguyễn Hồng Đào nằm trên mặt tiền đường Nguyễn Văn Bứa, Ấp Xuân Thới 2.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.88080,106.57480]]></description>
+        <styleUrl>#icon-1726-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5748,10.8808,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường THCS Võ Văn Tần</name>
+        <description><![CDATA[Thuộc: Ấp Tân Thới Nhì, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Trung học Cơ sở<br/>Địa chỉ: Số 5/5 đường Nguyễn Thị Nuôi, Ấp Tân Thới Nhì, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường THCS Võ Văn Tần thuộc khu vực hành chính Ấp Tân Thới Nhì.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.89180,106.58460]]></description>
+        <styleUrl>#icon-1726-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5846,10.8918,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường THCS Tân Xuân</name>
+        <description><![CDATA[Thuộc: Ấp Tân Tiến, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Trung học Cơ sở<br/>Địa chỉ: Quốc lộ 22, Ấp Tân Tiến, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường THCS Tân Xuân phục vụ học sinh khu vực Tân Tiến, Bùi Môn và Xuân Thới Đông.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.86620,106.59580]]></description>
+        <styleUrl>#icon-1726-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5958,10.8662,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường Tiểu học - THCS Tạ Uyên</name>
+        <description><![CDATA[Thuộc: Ấp Thống Nhất 1, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Liên cấp TH - THCS<br/>Địa chỉ: Số 321A đường Lê Lợi, Ấp Thống Nhất 1, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trường Tiểu học - THCS Tạ Uyên trên đường Lê Lợi, Ấp Thống Nhất 1.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.89650,106.58150]]></description>
+        <styleUrl>#icon-1726-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5815,10.8965,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trường Tiểu học - THCS - THPT Tre Việt</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới Đông 1, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trường Liên cấp TH - THCS - THPT<br/>Địa chỉ: 26/25M-N-P Xuân Thới Đông, Ấp Xuân Thới Đông 1, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Hệ thống Trường liên cấp Tiểu học - THCS - THPT Tre Việt tại Ấp Xuân Thới Đông 1.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.86420,106.58680]]></description>
+        <styleUrl>#icon-1726-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5868,10.8642,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trung tâm GDNN - GDTX (Cơ sở Xuân Thới Sơn)</name>
+        <description><![CDATA[Thuộc: Ấp Nhị Tân 2, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trung tâm GDNN - GDTX<br/>Địa chỉ: Số 7 đường Đặng Công Bỉnh, Ấp Nhị Tân 2, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trung tâm Giáo dục Nghề nghiệp - Giáo dục Thường xuyên trên đường Đặng Công Bỉnh, Ấp Nhị Tân 2.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.89165,106.57285]]></description>
+        <styleUrl>#icon-1726-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.57285,10.89165,0</coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Trung tâm học tập cộng đồng &amp; Các địa điểm hỗ trợ</name>
+      <Placemark>
+        <name>Trung tâm cung ứng dịch vụ công xã Xuân Thới Sơn</name>
+        <description><![CDATA[Thuộc: Ấp Dân Thắng, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trung tâm Dịch vụ công & VH-TT<br/>Địa chỉ: Ấp Dân Thắng, Xã Xuân Thới Sơn, TP.HCM<br/>Website: https://www.facebook.com/ttcudvcxaxuanthoison<br/>Chi tiết: Trung tâm Cung ứng dịch vụ công xã Xuân Thới Sơn - Tổ chức các hoạt động văn hóa, thể thao, truyền thông và dịch vụ công cộng trên địa bàn xã.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.890966,106.5767067]]></description>
+        <styleUrl>#icon-1546-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5767067,10.890966,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>ĐẢNG UỶ XÃ XUÂN THỚI SƠN</name>
+        <description><![CDATA[Thuộc: Ấp Tân Thới Nhì, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trụ sở Cơ quan Đảng - Đoàn thể<br/>Địa chỉ: Số 2/2 đường Nguyễn Thị Nuôi, Ấp Tân Thới Nhì, Xã Xuân Thới Sơn, TP.HCM<br/>Website: https://www.facebook.com/DTNxaTTN<br/>Chi tiết: Trụ sở Đảng ủy - Ủy ban MTTQ Việt Nam và các tổ chức chính trị - xã hội (Đoàn Thanh niên) xã Xuân Thới Sơn.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8937947,106.5831773]]></description>
+        <styleUrl>#icon-1598-E65100</styleUrl>
+        <Point>
+          <coordinates>106.5831773,10.8937947,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>UBND Xã Xuân Thới Sơn</name>
+        <description><![CDATA[Thuộc: Ấp Nam Xuân 2, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trụ sở Hành chính Nhà nước<br/>Địa chỉ: Số 01A Lê Thị Kim (36/2 Nguyễn Văn Bứa), Ấp Nam Xuân 2, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trụ sở Ủy ban Nhân dân xã Xuân Thới Sơn & Điểm tiếp nhận, giải quyết thủ tục hành chính một cửa.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8754918,106.5795915]]></description>
+        <styleUrl>#icon-1598-E65100</styleUrl>
+        <Point>
+          <coordinates>106.5795915,10.8754918,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Công an xã Xuân Thới Sơn</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới Đông 3, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trụ sở Công an xã<br/>Địa chỉ: Số 62 đường Trần Văn Mười, Ấp Xuân Thới Đông 3, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trụ sở Công an xã Xuân Thới Sơn - Tiếp nhận giải quyết cư trú, định danh điện tử VNeID và đảm bảo ANTT địa bàn 30 ấp.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8688206,106.589089]]></description>
+        <styleUrl>#icon-1598-E65100</styleUrl>
+        <Point>
+          <coordinates>106.589089,10.8688206,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Ban Chỉ huy Quân sự xã Xuân Thới Sơn</name>
+        <description><![CDATA[Thuộc: Ấp Nam Xuân 2, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Cơ quan Quân sự xã<br/>Địa chỉ: Đường Lê Thị Kim / Nguyễn Văn Bứa, Ấp Nam Xuân 2, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trụ sở Ban Chỉ huy Quân sự xã Xuân Thới Sơn.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8756685,106.5804422]]></description>
+        <styleUrl>#icon-1596-0F9D58</styleUrl>
+        <Point>
+          <coordinates>106.5804422,10.8756685,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trạm Y Tế Xuân Thới Sơn</name>
+        <description><![CDATA[Thuộc: Ấp Nam Xuân 2, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Cơ sở Y tế công lập<br/>Địa chỉ: Đường Nguyễn Văn Bứa, Ấp Nam Xuân 2, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trạm Y tế Xuân Thới Sơn - Khám chữa bệnh ban đầu, tiêm chủng mở rộng và chăm sóc sức khỏe nhân dân.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.875736,106.5807805]]></description>
+        <styleUrl>#icon-1624-DB4436</styleUrl>
+        <Point>
+          <coordinates>106.5807805,10.875736,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trạm Y Tế Xã Xuân Thới Đông</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới Đông 1, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Cơ sở Y tế công lập<br/>Địa chỉ: Ấp Xuân Thới Đông 1, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trạm Y tế khu vực Xuân Thới Đông chăm sóc sức khỏe ban đầu cho nhân dân các ấp phía Nam xã.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8653824,106.5845917]]></description>
+        <styleUrl>#icon-1624-DB4436</styleUrl>
+        <Point>
+          <coordinates>106.5845917,10.8653824,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trạm Y tế xã Tân Thới Nhì</name>
+        <description><![CDATA[Thuộc: Ấp Tân Thới Nhì, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Cơ sở Y tế công lập<br/>Địa chỉ: Đường Nguyễn Thị Nuôi, Ấp Tân Thới Nhì, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trạm Y tế khu vực Tân Thới Nhì phục vụ chăm sóc sức khỏe nhân dân các ấp phía Bắc xã.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8937379,106.5828426]]></description>
+        <styleUrl>#icon-1624-DB4436</styleUrl>
+        <Point>
+          <coordinates>106.5828426,10.8937379,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trung tâm Học tập Cộng đồng xã Xuân Thới Sơn (Cơ sở 1)</name>
+        <description><![CDATA[Thuộc: Ấp Nam Xuân 2, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trung tâm Học tập Cộng đồng<br/>Địa chỉ: Số 01A đường Lê Thị Kim, Ấp Nam Xuân 2, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trung tâm Học tập Cộng đồng xã Xuân Thới Sơn (Cơ sở 1) - Tổ chức các lớp phổ cập kỹ năng số, bình dân học vụ số, tuyên truyền pháp luật và khuyến học.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.87525,106.57985]]></description>
+        <styleUrl>#icon-1546-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.57985,10.87525,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trung tâm Học tập Cộng đồng xã Xuân Thới Sơn (Cơ sở 2 - Tân Thới Nhì)</name>
+        <description><![CDATA[Thuộc: Ấp Tân Thới Nhì, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trung tâm Học tập Cộng đồng<br/>Địa chỉ: Số 2/2 đường Nguyễn Thị Nuôi, Ấp Tân Thới Nhì, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trung tâm Học tập Cộng đồng Cơ sở 2 - Điểm sinh hoạt chuyên đề, tập huấn chuyển đổi số và học tập suốt đời khu vực Tân Thới Nhì.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.89345,106.58335]]></description>
+        <styleUrl>#icon-1546-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.58335,10.89345,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Trung tâm Học tập Cộng đồng xã Xuân Thới Sơn (Cơ sở 3 - Xuân Thới Đông)</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới Đông, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Trung tâm Học tập Cộng đồng<br/>Địa chỉ: Đường Trần Văn Mười, Ấp Xuân Thới Đông, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Trung tâm Học tập Cộng đồng Cơ sở 3 - Điểm sinh hoạt văn hóa, bồi dưỡng kiến thức cộng đồng khu vực Xuân Thới Đông.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.86585,106.58945]]></description>
+        <styleUrl>#icon-1546-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.58945,10.86585,0</coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Nhà bia liệt sĩ &amp; Di tích lịch sử</name>
+      <Placemark>
+        <name>Nhà bia ghi danh Liệt sĩ Xuân Thới Sơn</name>
+        <description><![CDATA[Thuộc: Ấp Nam Xuân 2, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Nhà bia tưởng niệm Liệt sĩ<br/>Địa chỉ: Đường Nguyễn Văn Bứa, Ấp Nam Xuân 2, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Công trình ghi danh các Anh hùng Liệt sĩ xã Xuân Thới Sơn, nơi tổ chức lễ dâng hương và giáo dục truyền thống cách mạng cho đoàn viên thanh niên.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8759379,106.5804998]]></description>
+        <styleUrl>#icon-1706-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5804998,10.8759379,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Nhà Bia Liệt Sỹ Xã Xuân Thới Đông</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới Đông, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Nhà bia tưởng niệm Liệt sĩ<br/>Địa chỉ: Đường Trần Văn Mười, Ấp Xuân Thới Đông, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Nhà bia ghi danh các Anh hùng Liệt sĩ khu vực Xuân Thới Đông trên tuyến đường Trần Văn Mười.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8657417,106.5892857]]></description>
+        <styleUrl>#icon-1706-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5892857,10.8657417,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Nhà bia Liệt Sĩ Tân Thới Nhì</name>
+        <description><![CDATA[Thuộc: Ấp Thống Nhất 1, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Nhà bia tưởng niệm Liệt sĩ<br/>Địa chỉ: Đường Quốc lộ 22 / Lê Lợi, Ấp Thống Nhất 1, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Nhà bia ghi danh Liệt sĩ Tân Thới Nhì thuộc địa bàn Ấp Thống Nhất 1.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8962038,106.578795]]></description>
+        <styleUrl>#icon-1706-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.578795,10.8962038,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Di Tích Lịch Sử Nơi Họp Hội Nghị Xứ Ủy Nam Kỳ 9/1940</name>
+        <description><![CDATA[Thuộc: Ấp Mỹ Hòa 5, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Di tích lịch sử cấp Quốc gia<br/>Địa chỉ: Đường Xuân Thới Đông 1, Ấp Mỹ Hòa 5, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Di tích lịch sử Quốc gia Nơi họp Hội nghị Xứ ủy Nam Kỳ tháng 9/1940 chuẩn bị cho cuộc Khởi nghĩa Nam Kỳ.<br/>Chỉ đường Google Maps: https://www.google.com/maps/dir/?api=1&destination=10.8614912,106.5897018]]></description>
+        <styleUrl>#icon-1706-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5897018,10.8614912,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Địa chỉ đỏ nhà ông Nguyễn Công Sành</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới Đông 3, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Địa chỉ đỏ cách mạng<br/>Địa chỉ: Ấp Xuân Thới Đông 3, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Di tích lịch sử địa chỉ đỏ - Nhà ông Nguyễn Công Sành thuộc Ấp Xuân Thới Đông 3.<br/>Chỉ đường Google Maps: https://maps.app.goo.gl/LAmAXULcVj2KDCPy7]]></description>
+        <styleUrl>#icon-1706-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5885664,10.8677512,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Đình thần Xuân Thới Đông</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới Đông 3, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Di tích lịch sử văn hóa<br/>Địa chỉ: Đường Trần Văn Mười, Ấp Xuân Thới Đông 3, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Di tích lịch sử văn hóa - Đình thần Xuân Thới Đông thuộc Ấp Xuân Thới Đông 3.<br/>Chỉ đường Google Maps: https://maps.app.goo.gl/mYcqPrNaUEEeP8A88]]></description>
+        <styleUrl>#icon-1706-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5886146,10.8691299,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Địa chỉ đỏ nhà bà Nguyễn Thị Mừng</name>
+        <description><![CDATA[Thuộc: Ấp Xuân Thới Đông 3, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Địa chỉ đỏ cách mạng<br/>Địa chỉ: Ấp Xuân Thới Đông 3, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Di tích lịch sử địa chỉ đỏ - Nhà bà Nguyễn Thị Mừng thuộc Ấp Xuân Thới Đông 3.<br/>Chỉ đường Google Maps: https://maps.app.goo.gl/BZDCozTqkvx3oV9s9]]></description>
+        <styleUrl>#icon-1706-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5862297,10.8701055,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Địa chỉ đỏ nhà bà Phạm Thị Xuống</name>
+        <description><![CDATA[Thuộc: Ấp Nam Xuân, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Địa chỉ đỏ cách mạng<br/>Địa chỉ: Ấp Nam Xuân, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Di tích lịch sử địa chỉ đỏ - Nhà bà Phạm Thị Xuống thuộc Ấp Nam Xuân.<br/>Chỉ đường Google Maps: https://maps.app.goo.gl/YwQuFvJGk6HAmZxM7]]></description>
+        <styleUrl>#icon-1706-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.581768,10.8743421,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Địa chỉ đỏ nhà ông Nguyễn Văn Quận</name>
+        <description><![CDATA[Thuộc: Ấp Nhị Tân 3, Xã Xuân Thới Sơn, TP.HCM<br/>Phân loại: Địa chỉ đỏ cách mạng<br/>Địa chỉ: Ấp Nhị Tân 3, Xã Xuân Thới Sơn, TP.HCM<br/>Chi tiết: Di tích lịch sử địa chỉ đỏ - Nhà ông Nguyễn Văn Quận thuộc Ấp Nhị Tân 3.<br/>Chỉ đường Google Maps: https://maps.app.goo.gl/oiXtwSiV7pGTwMDx5?g_st=ic]]></description>
+        <styleUrl>#icon-1706-0288D1</styleUrl>
+        <Point>
+          <coordinates>106.5792623,10.8867876,0</coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { hamlets, tongQuan } from '../data/hamlets';
+import { buildGoogleMapsDirectionUrl } from '../data/mapLocationsData';
 
 // ─── Direction map ────────────────────────────────────────────
 const dirMap = { dong: 'Đông', tay: 'Tây', nam: 'Nam', bac: 'Bắc' };
@@ -110,12 +111,6 @@ const MapPinIcon = () => (
     <circle cx="12" cy="10" r="3" />
   </svg>
 );
-const PersonIcon = () => (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-    <circle cx="12" cy="7" r="4" />
-  </svg>
-);
 const CheckIcon = () => (
   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="20 6 9 17 4 12" />
@@ -137,6 +132,123 @@ const MinusIcon = () => (
     <line x1="5" y1="12" x2="19" y2="12" />
   </svg>
 );
+
+// ─── Reusable Location Card inside HamletDetail ───────────────
+function LocationSectionCard({
+  title,
+  emoji,
+  items,
+  themeClass,
+  accentColor,
+  isCollapsed,
+  onToggle,
+  currentHamletName,
+}) {
+  if (!items || items.length === 0) return null;
+
+  return (
+    <div className={`section-card xts-loc-section-card ${themeClass} ${isCollapsed ? 'collapsed' : ''}`}>
+      <div className="section-card-header" onClick={onToggle} role="button" tabIndex={0}>
+        <div className="section-card-title" style={{ color: accentColor }}>
+          <span className="loc-section-emoji">{emoji}</span>
+          <span>
+            {title} ({items.length})
+          </span>
+        </div>
+        <button className="section-collapse-btn" aria-label="Toggle section">
+          {isCollapsed ? <PlusIcon /> : <MinusIcon />}
+        </button>
+      </div>
+
+      {!isCollapsed && (
+        <div className="section-card-body">
+          <div className="diachido-list">
+            {items.map((item) => {
+              const directionUrl = buildGoogleMapsDirectionUrl(item.toado, item.linkMap);
+              const isSharedCluster = item.apTen && item.apTen !== currentHamletName;
+
+              return (
+                <div className="diachido-item-card xts-loc-item-card" key={item.id}>
+                  <div className="xts-loc-item-top">
+                    {item.loai && (
+                      <span className="xts-loc-type-badge" style={{ color: accentColor }}>
+                        {item.loai}
+                      </span>
+                    )}
+                    {isSharedCluster && (
+                      <span className="xts-loc-cluster-badge">
+                        Đặt tại Ấp {item.apTen}
+                      </span>
+                    )}
+                  </div>
+
+                  <h4 className="diachido-item-title">{item.ten}</h4>
+
+                  {item.diaChi && (
+                    <div className="xts-loc-meta-line">
+                      <strong>📍 Địa chỉ:</strong> {item.diaChi}
+                    </div>
+                  )}
+
+                  {item.dienThoai && (
+                    <div className="xts-loc-meta-line">
+                      <strong>📞 Điện thoại:</strong>{' '}
+                      <a href={`tel:${item.dienThoai}`}>{item.dienThoai}</a>
+                    </div>
+                  )}
+
+                  {item.website && (
+                    <div className="xts-loc-meta-line">
+                      <strong>🌐 Cổng thông tin:</strong>{' '}
+                      <a href={item.website} target="_blank" rel="noopener noreferrer">
+                        {item.website.replace(/^https?:\/\/(www\.)?/, '')}
+                      </a>
+                    </div>
+                  )}
+
+                  {item.moTa && <p className="diachido-item-desc">{item.moTa}</p>}
+
+                  <div className="diachido-actions-row">
+                    <button
+                      className="diachido-focus-btn"
+                      style={{ background: accentColor }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        window.dispatchEvent(
+                          new CustomEvent('xts_focus_location', {
+                            detail: { toado: item.toado, id: item.id },
+                          })
+                        );
+                      }}
+                      title="Định vị và mở thông tin điểm này trên bản đồ"
+                    >
+                      <MapPinIcon />
+                      <span>Định vị bản đồ</span>
+                    </button>
+
+                    <a
+                      href={directionUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="diachido-nav-btn"
+                      title="Mở chỉ đường hướng dẫn trên Google Maps"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <polygon points="3 11 22 2 13 21 11 13 3 11" />
+                      </svg>
+                      <span>Chỉ đường đi đến</span>
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 // ─── Stats Bar ────────────────────────────────────────────────
 function StatsBarInline() {
@@ -168,9 +280,9 @@ function StatsBarInline() {
         </div>
         <div className="stat-card">
           <span className="stat-num text-warning">
-            {tongQuan.tongDanSo ? `${(tongQuan.tongDanSo / 1000).toFixed(1)}k` : '—'}
+            {tongQuan.tongDiaDiem || 55}
           </span>
-          <span className="stat-lbl">Dân số</span>
+          <span className="stat-lbl">Địa điểm</span>
         </div>
       </div>
     </div>
@@ -179,6 +291,10 @@ function StatsBarInline() {
 
 // ─── Hamlet List Item ─────────────────────────────────────────
 function HamletListItem({ hamlet, isActive, onClick }) {
+  const totalSchools = (hamlet.truongHoc?.length || 0) + (hamlet.mamNon?.length || 0);
+  const totalRelics = hamlet.diaChiDo?.length || 0;
+  const totalSupport = hamlet.tthtcd?.length || 0;
+
   return (
     <div
       className={`hamlet-item ${isActive ? 'active' : ''}`}
@@ -204,15 +320,23 @@ function HamletListItem({ hamlet, isActive, onClick }) {
         </div>
       </div>
 
-      {hamlet.diaChiDo && hamlet.diaChiDo.length > 0 ? (
-        <span className="hamlet-status status-diachido" title={`${hamlet.diaChiDo.length} địa chỉ đỏ`}>
-          🚩 {hamlet.diaChiDo.length} Địa chỉ đỏ
-        </span>
-      ) : hamlet.tinhTrang ? (
-        <span className={`hamlet-status ${getStatusClass(hamlet.tinhTrang)}`}>
-          {hamlet.tinhTrang}
-        </span>
-      ) : null}
+      <div className="hamlet-mini-badges">
+        {totalRelics > 0 && (
+          <span className="hamlet-status status-diachido" title={`${totalRelics} Di tích / Nhà bia / Địa chỉ đỏ`}>
+            🚩 {totalRelics}
+          </span>
+        )}
+        {totalSchools > 0 && (
+          <span className="hamlet-status status-school-pill" title={`${totalSchools} Trường học / Mầm non`}>
+            🎓 {totalSchools}
+          </span>
+        )}
+        {totalSupport > 0 && (
+          <span className="hamlet-status status-support-pill" title={`${totalSupport} Trụ sở / TTHTCĐ`}>
+            🏢 {totalSupport}
+          </span>
+        )}
+      </div>
 
       <span className="hamlet-arrow">
         <ArrowRightIcon />
@@ -233,28 +357,30 @@ function HamletDetail({ hamlet, onBack }) {
   const truongInitials = getInitials(hamlet.truongAp);
   const biInitials = getInitials(hamlet.biBiThu);
 
-  // Accordion toggle states
   const [collapsed, setCollapsed] = useState({
+    diaChiDo: false,
+    bndAp: false,
+    truongHoc: false,
+    mamNon: false,
+    tthtcd: false,
     sapNhap: false,
     ranhGioi: false,
     lanhDao: false,
     duong: false,
-    moTa: false
+    moTa: false,
   });
 
   const toggleSection = (section) => {
-    setCollapsed(prev => ({
+    setCollapsed((prev) => ({
       ...prev,
-      [section]: !prev[section]
+      [section]: !prev[section],
     }));
   };
 
-  // Check if sections have data
-  const hasDiaChiDo = hamlet.diaChiDo && hamlet.diaChiDo.length > 0;
-  const hasRanhGioi = hamlet.ranhGioi && Object.values(hamlet.ranhGioi).some(v => v !== "");
-  const hasLanhDao = hamlet.truongAp !== "" || hamlet.biBiThu !== "";
+  const hasRanhGioi = hamlet.ranhGioi && Object.values(hamlet.ranhGioi).some((v) => v !== '');
+  const hasLanhDao = hamlet.truongAp !== '' || hamlet.biBiThu !== '';
   const hasDuong = hamlet.duongChinh && hamlet.duongChinh.length > 0;
-  const hasMoTa = hamlet.moTa && hamlet.moTa !== "";
+  const hasMoTa = hamlet.moTa && hamlet.moTa !== '';
 
   return (
     <div className="detail-overlay">
@@ -267,14 +393,13 @@ function HamletDetail({ hamlet, onBack }) {
           <div className="detail-hamlet-number">ẤP {hamlet.ten.toUpperCase()} · XÃ XUÂN THỚI SƠN</div>
           <div className="detail-hamlet-name">{hamlet.ten}</div>
         </div>
-        {hamlet.tinhTrang ? (
-          <div className="detail-status-badge">{hamlet.tinhTrang}</div>
-        ) : null}
+        <div className="detail-status-badge">
+          {hamlet.diaDiem?.length || 0} địa điểm
+        </div>
       </div>
 
       {/* ── Scrollable body ── */}
       <div className="detail-body">
-
         {/* 5 metrics */}
         <div className="metrics-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))' }}>
           <div className="metric-card">
@@ -333,63 +458,65 @@ function HamletDetail({ hamlet, onBack }) {
           </div>
         </div>
 
-        {/* Địa chỉ đỏ / Di tích lịch sử */}
-        {hasDiaChiDo && (
-          <div className={`section-card diachido-section-card ${collapsed.diaChiDo ? 'collapsed' : ''}`}>
-            <div className="section-card-header" onClick={() => toggleSection('diaChiDo')} role="button" tabIndex={0}>
-              <div className="section-card-title text-red-600">
-                <span className="red-flag-anim">🚩</span>
-                Địa chỉ đỏ / Di tích lịch sử ({hamlet.diaChiDo.length})
-              </div>
-              <button className="section-collapse-btn" aria-label="Toggle section">
-                {collapsed.diaChiDo ? <PlusIcon /> : <MinusIcon />}
-              </button>
-            </div>
-            {!collapsed.diaChiDo && (
-              <div className="section-card-body">
-                <div className="diachido-list">
-                  {hamlet.diaChiDo.map((item) => (
-                    <div className="diachido-item-card" key={item.id}>
-                      <h4 className="diachido-item-title">{item.ten}</h4>
-                      {item.moTa && <p className="diachido-item-desc">{item.moTa}</p>}
+        {/* 1. Địa chỉ đỏ / Di tích lịch sử & Nhà bia liệt sĩ */}
+        <LocationSectionCard
+          title="Địa chỉ đỏ / Di tích lịch sử"
+          emoji="🚩"
+          items={hamlet.diaChiDo}
+          themeClass="diachido-section-card"
+          accentColor="#DC2626"
+          isCollapsed={collapsed.diaChiDo}
+          onToggle={() => toggleSection('diaChiDo')}
+          currentHamletName={hamlet.ten}
+        />
 
-                      <div className="diachido-actions-row">
-                        <button
-                          className="diachido-focus-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            window.dispatchEvent(new CustomEvent('xts_focus_diachido', {
-                              detail: { toado: item.toado, id: item.id }
-                            }));
-                          }}
-                          title="Định vị trên bản đồ"
-                        >
-                          <MapPinIcon />
-                          <span>Định vị bản đồ</span>
-                        </button>
-                        {item.linkMap && (
-                          <a
-                            href={item.linkMap}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="diachido-nav-btn"
-                            title="Chỉ đường trên Google Maps"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                              <polygon points="3 11 22 2 13 21 11 13 3 11" />
-                            </svg>
-                            <span>Chỉ đường đi đến</span>
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
+        {/* 2. Ban nhân dân ấp / Liên ấp */}
+        <LocationSectionCard
+          title="Ban nhân dân ấp / Liên ấp"
+          emoji="🏛️"
+          items={hamlet.bndAp}
+          themeClass="bnd-section-card"
+          accentColor="#0F9D58"
+          isCollapsed={collapsed.bndAp}
+          onToggle={() => toggleSection('bndAp')}
+          currentHamletName={hamlet.ten}
+        />
+
+        {/* 3. Các trường từ Tiểu học đến THPT */}
+        <LocationSectionCard
+          title="Trường học (Tiểu học - THPT)"
+          emoji="🎓"
+          items={hamlet.truongHoc}
+          themeClass="school-section-card"
+          accentColor="#0288D1"
+          isCollapsed={collapsed.truongHoc}
+          onToggle={() => toggleSection('truongHoc')}
+          currentHamletName={hamlet.ten}
+        />
+
+        {/* 4. Các trường Mầm non */}
+        <LocationSectionCard
+          title="Trường Mầm non"
+          emoji="🧒"
+          items={hamlet.mamNon}
+          themeClass="kinder-section-card"
+          accentColor="#0288D1"
+          isCollapsed={collapsed.mamNon}
+          onToggle={() => toggleSection('mamNon')}
+          currentHamletName={hamlet.ten}
+        />
+
+        {/* 5. Trung tâm học tập cộng đồng & Các địa điểm hỗ trợ */}
+        <LocationSectionCard
+          title="TT Học tập Cộng đồng & Hỗ trợ"
+          emoji="🏢"
+          items={hamlet.tthtcd}
+          themeClass="support-section-card"
+          accentColor="#E65100"
+          isCollapsed={collapsed.tthtcd}
+          onToggle={() => toggleSection('tthtcd')}
+          currentHamletName={hamlet.ten}
+        />
 
         {/* Sáp nhập từ */}
         {hamlet.sapNhapTu && hamlet.sapNhapTu.length > 0 && (
@@ -542,7 +669,6 @@ function HamletDetail({ hamlet, onBack }) {
             )}
           </div>
         )}
-
       </div>
     </div>
   );
@@ -551,29 +677,36 @@ function HamletDetail({ hamlet, onBack }) {
 export default function Sidebar({ selectedHamletId, onHamletSelect }) {
   const [isMobileExpanded, setIsMobileExpanded] = useState(true);
 
-  // Derive the hamlet object from the shared id
   const selectedHamlet = selectedHamletId
     ? hamlets.find((h) => h.id === selectedHamletId) || null
     : null;
 
   const [search, setSearch] = useState('');
 
-  // Expand bottom sheet on mobile when a hamlet is selected from map
   useEffect(() => {
     if (selectedHamletId) {
       setIsMobileExpanded(true);
     }
   }, [selectedHamletId]);
 
-  const filtered = hamlets.filter(
-    (h) =>
-      h.ten.toLowerCase().includes(search.toLowerCase()) ||
-      h.tenCu.toLowerCase().includes(search.toLowerCase())
-  );
+  const query = search.trim().toLowerCase();
+  const filtered = hamlets.filter((h) => {
+    if (!query) return true;
+    const matchHamlet =
+      h.ten.toLowerCase().includes(query) ||
+      (h.tenCu && h.tenCu.toLowerCase().includes(query));
+    const matchLocations = (h.diaDiem || []).some(
+      (loc) =>
+        loc.ten.toLowerCase().includes(query) ||
+        (loc.diaChi && loc.diaChi.toLowerCase().includes(query)) ||
+        (loc.loai && loc.loai.toLowerCase().includes(query))
+    );
+    return matchHamlet || matchLocations;
+  });
 
   return (
     <aside className={`sidebar ${isMobileExpanded ? 'mobile-expanded' : ''}`} style={{ position: 'relative' }}>
-      {/* Mobile handle pull tab for bottom sheet */}
+      {/* Mobile handle pull tab */}
       <div
         className="sidebar-mobile-handle"
         onClick={() => setIsMobileExpanded(!isMobileExpanded)}
@@ -610,10 +743,10 @@ export default function Sidebar({ selectedHamletId, onHamletSelect }) {
           <input
             type="text"
             id="hamlet-search"
-            placeholder="Tìm theo tên ấp mới, tên ấp cũ sáp nhập..."
+            placeholder="Tìm theo tên ấp, trường học, BND ấp, di tích..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            aria-label="Tìm kiếm ấp"
+            aria-label="Tìm kiếm ấp hoặc địa điểm"
           />
           {search && (
             <button
@@ -637,7 +770,6 @@ export default function Sidebar({ selectedHamletId, onHamletSelect }) {
 
       {/* ── List / Detail container ── */}
       <div className="hamlet-list-container">
-        {/* Hamlet list */}
         <div className="hamlet-list-grid">
           {filtered.length > 0 ? (
             filtered.map((hamlet) => (
